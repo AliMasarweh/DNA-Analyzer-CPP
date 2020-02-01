@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD 98)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 
-add_executable(cmd cmd.cpp database_handler.cpp test_dnanalyzer.cpp)
-add_executable(db database_handler.cpp)
+add_executable(cmd cmd.cpp databaseHandler/database_handler.cpp testingUnit/test_dnanalyzer.cpp)
+add_executable(DNAnalyzer databaseHandler/database_handler.cpp)
 
-add_executable(testDNAnalyzer test_dnanalyzer.cpp)
-target_link_libraries(testDNA_Sequence gtest gtest_main pthread)
+add_executable(testDNAnalyzer testingUnit/test_dnanalyzer.cpp)
+target_link_libraries(testDNAnalyzer gtest gtest_main pthread)
