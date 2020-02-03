@@ -91,6 +91,7 @@ char DNASequence::operator[](size_t index) {
 }
 
 ostream &operator<<(ostream &os, const DNASequence &dna) {
+    string x = * dna.m_sequence;
     os << * dna.m_sequence;
     return os;
 }
