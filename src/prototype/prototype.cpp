@@ -68,13 +68,12 @@ void CommandsParser::parseInputCommand(string& basicString)
                     basicString.substr(1));
         else
             IndexedDNASequence indexedDnaSequence(seq);*/
-        string tmp1, tmp2;
+
         IndexedDNASequence indexedDnaSequence(
-                tmp1 = Creational::parseSeqOrFileArgument(basicString),
-                tmp2 = Creational::parseNameArgumentIfExists(basicString));
+                Creational::parseSeqOrFileArgument(basicString),
+                Creational::parseNameArgumentIfExists(basicString));
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
                 new IndexedDNASequence(indexedDnaSequence);
-        tmp1 = indexedDnaSequence.getName();
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
             indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
             << endl;
@@ -86,7 +85,7 @@ void CommandsParser::parseInputCommand(string& basicString)
                 Cache::idToDNASequence[idAsNumber]->asString(),
                 Creational::parseNameArgumentIfExists(basicString));
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                &indexedDnaSequence;
+                new IndexedDNASequence(indexedDnaSequence);
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
              indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
              << endl;
@@ -106,18 +105,42 @@ void CommandsParser::parseInputCommand(string& basicString)
         string id = Creational::parseSeqOrFileArgument(basicString);
         assert(id[0] == '#');
         size_t idAsNumber = atoi(id.substr(1).c_str());
+        sliceUntillSpace(basicString);
 
         string start = Creational::parseSeqOrFileArgument(basicString);
-        size_t startAsNumber = atoi(start.substr(1).c_str());
+        size_t startAsNumber = atoi(start.c_str());
+        sliceUntillSpace(basicString);
 
         string end = Creational::parseSeqOrFileArgument(basicString);
-        size_t endAsNumber = atoi(end.substr(1).c_str());
+        size_t endAsNumber = atoi(end.c_str());
+
+        IndexedDNASequence indexedDnaSequence(
+                Cache::idToDNASequence[idAsNumber]->
+                slice(startAsNumber, endAsNumber).asString(), "");
+
+        Cache::idToDNASequence[indexedDnaSequence.getId()] =
+                new IndexedDNASequence(indexedDnaSequence);
+        cout << '[' << indexedDnaSequence.getId() << "] "  <<
+             indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
+             << endl;
     } else if(op == commands[REPLACE]){
 
     } else if(op == commands[CONCAT]){
 
-    } else if(op == commands[CONCAT]){
+    } else if(op == commands[PAIR]){
+        string id = Creational::parseSeqOrFileArgument(basicString);
+        assert(id[0] == '#');
+        size_t idAsNumber = atoi(id.substr(1).c_str());
 
+        IndexedDNASequence indexedDnaSequence(
+                Cache::idToDNASequence[idAsNumber]->
+                        pairing().asString(), "");
+
+        Cache::idToDNASequence[indexedDnaSequence.getId()] =
+                new IndexedDNASequence(indexedDnaSequence);
+        cout << '[' << indexedDnaSequence.getId() << "] "  <<
+             indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
+             << endl;
     }
 }
 
