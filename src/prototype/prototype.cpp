@@ -4,17 +4,38 @@
 #include <iostream>
 #include <string>
 #include <assert.h>
+#include <cstdlib>
 #include "../model/dna_sequence.h"
-
+#include "indexed_dna_sequence.h"
 using namespace std;
 
-static DNASequence* cache[10];
-static string statringCommand = "cmd <<< ";
-enum commandsNames{ NEW, LOAD, SAVE, SLICE, REPLACE, CONCAT, PAIR };
-static string commands[] = {"new", "load","save","slice",
-                            "replace", "concat", "pair"};
 
-void parseInput(string& basicString);
+class Cache{
+public:
+    static map<size_t, IndexedDNASequence*> idToDNASequence;
+};
+map<size_t, IndexedDNASequence*> Cache::idToDNASequence;
+
+class CommandsParser{
+public:
+    static void parseInputCommand(string& basicString);
+
+private:
+    static void parseStartingCommand(string& basicString);
+    static void sliceUntillSpace(string& basicString);
+    class Creational{
+    public:
+        static string parseSeqOrFileArgument(string& basicString);
+        static string parseNameArgumentIfExists(string& basicString);
+    };
+    static string statringCommand;
+    enum commandsNames{ NEW, LOAD, DUP, SLICE, REPLACE, CONCAT, PAIR };
+    static string commands[];
+};
+
+string CommandsParser::statringCommand = "cmd <<< ";
+string CommandsParser::commands[] = { "new", "load", "dup","slice",
+                     "replace", "concat", "pair"};
 
 int main()
 {
@@ -23,19 +44,79 @@ int main()
     getline(cin, input);
     while(input != "quit")
     {
-        parseInput(input);
+        CommandsParser::parseInputCommand(input);
         getline(cin, input);
     }
     cout << "QUITING!" << endl;
     return 0;
 }
 
-void parseInput(string& basicString) {
-    assert(basicString.find(statringCommand) == 0);
-    string operationAndArgs = basicString.substr(statringCommand.length());
-    string op = operationAndArgs.substr(0, operationAndArgs.find(" "));
+void CommandsParser::parseInputCommand(string& basicString)
+{
+    parseStartingCommand(basicString);
+    string op = basicString.substr(0,basicString.find(" "));
 
     if(op == commands[NEW]){
-
+        /*string seq = basicString.
+                substr(0, basicString.find(" "));
+        sliceUntillSpace(basicString);
+        if(basicString.find("@") == 0)
+            IndexedDNASequence indexedDnaSequence(seq,
+                    basicString.substr(1));
+        else
+            IndexedDNASequence indexedDnaSequence(seq);*/
+        string tmp1;
+        IndexedDNASequence indexedDnaSequence(
+                Creational::parseSeqOrFileArgument(basicString),
+                Creational::parseNameArgumentIfExists(basicString));
+        Cache::idToDNASequence[indexedDnaSequence.getId()] =
+                &indexedDnaSequence;
+        tmp1 = indexedDnaSequence.getName();
+        cout << '[' << indexedDnaSequence.getId() << "] "
+            << indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString();
+    } else if(op == commands[DUP]){
+        string id =Creational::parseSeqOrFileArgument(basicString);
+        assert(id[0] == '#');
+        size_t idAsNumber = atoi(id.substr(1).c_str());
+        IndexedDNASequence indexedDnaSequence(
+                Cache::idToDNASequence[idAsNumber]->asString(),
+                Creational::parseNameArgumentIfExists(basicString));
+        Cache::idToDNASequence[indexedDnaSequence.getId()] =
+                &indexedDnaSequence;
+    } else if(op == commands[LOAD]){
+        string path = Creational::parseSeqOrFileArgument(basicString);
+        IndexedDNASequence indexedDnaSequence("A",
+                Creational::parseNameArgumentIfExists(basicString));
+        indexedDnaSequence.readFromFile(path);
+        Cache::idToDNASequence[indexedDnaSequence.getId()] =
+                &indexedDnaSequence;
     }
+}
+
+void CommandsParser::parseStartingCommand(string& basicString)
+{
+    assert(basicString.find(statringCommand) == 0);
+    basicString = basicString.substr(statringCommand.length());
+}
+
+void CommandsParser::sliceUntillSpace(string& basicString)
+{
+    size_t indx = string::npos;
+    if((indx = basicString.find(" ")) != string::npos)
+        basicString = basicString.substr(indx+1);
+}
+
+string CommandsParser::Creational::
+    parseSeqOrFileArgument(string& basicString)
+{
+    return basicString.substr(0, basicString.find(" "));
+}
+
+string CommandsParser::Creational::
+parseNameArgumentIfExists(string& basicString)
+{
+    sliceUntillSpace(basicString);
+    if(basicString.find("@") == 0)
+        return basicString;
+    return "";
 }
