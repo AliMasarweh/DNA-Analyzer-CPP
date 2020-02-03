@@ -73,7 +73,7 @@ void CommandsParser::parseInputCommand(string& basicString)
                 tmp1 = Creational::parseSeqOrFileArgument(basicString),
                 tmp2 = Creational::parseNameArgumentIfExists(basicString));
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                &indexedDnaSequence;
+                new IndexedDNASequence(indexedDnaSequence);
         tmp1 = indexedDnaSequence.getName();
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
             indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
@@ -102,7 +102,16 @@ void CommandsParser::parseInputCommand(string& basicString)
              << endl;
     }
     else if(op == commands[SLICE]){
+        // id parsing
+        string id = Creational::parseSeqOrFileArgument(basicString);
+        assert(id[0] == '#');
+        size_t idAsNumber = atoi(id.substr(1).c_str());
 
+        string start = Creational::parseSeqOrFileArgument(basicString);
+        size_t startAsNumber = atoi(start.substr(1).c_str());
+
+        string end = Creational::parseSeqOrFileArgument(basicString);
+        size_t endAsNumber = atoi(end.substr(1).c_str());
     } else if(op == commands[REPLACE]){
 
     } else if(op == commands[CONCAT]){
