@@ -3,41 +3,42 @@
 @startuml
 left to right direction
 package DNAnalyzer{
-
 package controller{
-package CacheManipulation{
-    class SequenceCreation{
-        + new()
-        + load()
-        + dup()
-    }
-    class SequenceManipulation{
-        + slice()
-        + concat()
-        + replace()
-        + pair()
-    }
-    class SequenceAnalysis{
-        + len()
-        + find()
-        + count()
-        + findAll()
-    }
+interface CLICommand{
+    {abstract} execute(): string
+}
+
+class CLICommandFactory{
+    createCommand(string op)
+}
+
+class Batch{
+    vector<Batch*>
+}
+
+class CLINewCommand{
+    execute(): string
+}
+
+class CLISliceCommand{
+    execute(): string
+}
+
+class CLIPairCommand{
+    execute(): string
 }
 
 
-package DatabaseManegment{
-    class DatabaseManegment{
-        + save()
-        + rename()
-        + delete()
-        + reenumerate()
-    }
-    class CachingControlUnit{
-        + show()
-        + help()
-        + quit()
-    }
+class CLISaveCommand{
+    execute(): string
+}
+
+class CLIDefualtLabelCommand{
+    execute(): string
+}
+
+class CLIMaxCommand{
+    execute(): string
 }
 
 package DNALabeling{
@@ -57,26 +58,23 @@ package DNALabeling{
     }
 }
 
+
 class Controller{
-    {static} + controlConmmand()
-}
+    {static} + executeCommand(ReferencedOperation&): string
 }
 
 class  IndexDNASequence{
     - size_t id
     - string name
 }
+}
 
+
+package Model{
 class DNASequence{
-    - char seq[]
+    - Nuclotide seq[]
     - size_t len
 
-    + DNASequence(cstring)
-    + DNASequence(std::string)
-    + DNASequence(DNASequence)
-    + operator<<(ostream)
-    + operator==(DNASequence)
-    + operator!=(DNASequence)
     + operator[](size_t)
     + getLength()
 
@@ -93,6 +91,8 @@ class DNASequence{
 }
 
 class  Nuclotide{
+    - char nuc;
+    + Nuclotide(char)
     {static} + isValidNuclotide()
 }
 
@@ -109,9 +109,10 @@ class Streamer{
     + writeToFile(path)
     + readFromFile(path)
 }
+}
 
 package View{
-class Cache{
+class CLI{
     - map<id, sequence>
     - map<name, id>
     - map<id, batches>
@@ -119,30 +120,50 @@ class Cache{
     + getDNAById()
     + getDNAByName()
 }
+
+class ReferencedOperation{
+    - string op
+    - vector<ReferencedOperation*> args
+    - string arg
+    - string refrence
+}
+
+class Parser{
+    
+    parse(string): ReferencedOperation
+}
 }
 
 }
-DNASequence -- Nuclotide
-DNASequence -- Codon
-DNASequence -- Streamer
+DNASequence o-- Nuclotide
+DNASequence --> Codon
+DNASequence --> Streamer
 IndexDNASequence --|> DNASequence
 
-IndexDNASequence o-- SequenceCreation
-IndexDNASequence o-- SequenceManipulation
-IndexDNASequence o-- SequenceAnalysis
+IndexDNASequence <-- CLINewCommand
+IndexDNASequence <-- CLISliceCommand
+IndexDNASequence <-- CLIPairCommand
 
-Cache -- Controller
+CLI --> Parser
+Parser --> Controller
+Parser  o-- ReferencedOperation
+Controller o-- Batch
 
-Controller -- SequenceCreation
-Controller -- SequenceManipulation
-Controller -- SequenceAnalysis
+CLICommandFactory --> CLICommand
+Controller --> CLICommandFactory
 
-Controller -- DatabaseManegment
-Controller -- CachingControlUnit
 
-Controller -- ResultLabeling
-Controller -- LabelActions
-Controller -- LastRefences
+CLICommand <|-- CLINewCommand
+
+CLICommand <|-- CLISliceCommand
+CLICommand <|-- CLIPairCommand
+CLICommand <|-- CLISaveCommand
+
+CLICommand <|-- CLIDefualtLabelCommand
+CLICommand <|-- CLIMaxCommand
+
+CLIDefualtLabelCommand --> LastRefences
+CLIMaxCommand --> LabelActions
 @enduml
 ```
 # **Use-Case Diagram**
@@ -152,8 +173,13 @@ Controller -- LastRefences
 left to right direction
 skinparam packageStyle rectangle
 actor biologist
-actor cache
+rectangle CLI{
+    (read)
+    (write)
+}
 rectangle checkout {
+  biologist --> (manipulation)
+  biologist --> (analysis)
   biologist --> (createDNA)
   biologist --> (manageDataBase)
   biologist --> (control)
@@ -162,9 +188,9 @@ rectangle checkout {
   (manipulation) .> (labeling) : includes
   (analysis) .> (labeling) : includes
 
-  (manipulation) --> cache
-  (analysis) --> cache
-  (labeling) --> cache
+  (manipulation) -- CLI
+  (analysis) -- CLI
+  (labeling) -- CLI
 }
 @enduml
 ```
@@ -172,11 +198,14 @@ rectangle checkout {
 ```plantuml
 
 @startuml
-artifact view
-artifact controller
+artifact analyzer
+package Controller
+package DNASequence
 
-view --> controller
-controller --> view
+analyzer --> Controller
+Controller --> DNASequence
+DNASequence --> Controller
+Controller --> analyzer
 @enduml
 
 ```
