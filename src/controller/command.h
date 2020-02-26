@@ -9,7 +9,8 @@
 
 class Command
 {
-    virtual std::string execute(std::string args[]);
+public:
+    virtual std::string execute(std::string args[], size_t len) = 0;
 };
 
 #endif //DNANALYZER_COMMAND_H

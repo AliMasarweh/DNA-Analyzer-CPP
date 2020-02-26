@@ -20,4 +20,10 @@ add_executable(prototype src/prototype/prototype.cpp
         src/model/codon_analyzer.cpp src/model/codon_analyzer.h src/prototype/indexed_dna_sequence.h)
 
 
-add_executable(controller_test controller_test.cpp src/controller)
+add_executable(controller_test controller_test.cpp src/controller/controller.h
+        src/controller/commands_factory.h src/controller/commands_factory.cpp
+        src/controller/controller.h src/controller/controller.cpp
+        src/controller/commands/dup_command.h src/controller/commands/dup_command.cpp
+        src/controller/commands/load_command.h src/controller/commands/load_command.cpp
+        src/controller/commands/new_command.h src/controller/commands/new_command.cpp
+        src/controller/batch.h src/controller/batch.cpp)

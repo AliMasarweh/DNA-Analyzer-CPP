@@ -9,9 +9,9 @@
 #include <string>
 #include "command.h"
 
-class commands_factory
+class CommandsFactory
 {
-    Command& CreateCommandFromOperation(std::string operation);
+    static Command& CreateCommandFromOperation(std::string operation);
 };
 
 
