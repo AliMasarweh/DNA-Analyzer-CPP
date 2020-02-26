@@ -7,8 +7,17 @@ set(CMAKE_CXX_STANDARD 98)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 
-add_executable(cmd cmd.cpp)
+file(GLOB_RECURSE MODEL_SRCS
+        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/model/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/model/*.h)
+
+source_group(model FILES ${MODEL_SRCS})
+
 add_executable(prototype src/prototype/prototype.cpp
         src/model/dna_sequence.h src/model/dna_sequence.cpp
         src/model/nucleotide_analyzer.cpp src/model/nucleotide_analyzer.h
         src/model/codon_analyzer.cpp src/model/codon_analyzer.h src/prototype/indexed_dna_sequence.h)
+
+
+add_executable(controller_test controller_test.cpp src/controller)
