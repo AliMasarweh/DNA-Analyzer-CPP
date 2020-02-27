@@ -7,11 +7,16 @@
 
 
 #include <string>
+#include <map>
 #include "command.h"
 
 class CommandsFactory
 {
-    static Command& CreateCommandFromOperation(std::string operation);
+public:
+    static Command& CreateCommandFromOperation(std::string& operation);
+    static std::map<std::string, Command*>& initCommands();
+    static void destructCommands();
+    static std::map<std::string, Command*> s_commandByOperationName;
 };
 
 
