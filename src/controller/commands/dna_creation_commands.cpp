@@ -22,16 +22,7 @@ string NewCommand::execute()
 
 void NewCommand::parseArgs()
 {
-    if(m_args.size() == 1)
-        addParsedAgrs(m_args[0]);
-    else if(m_args.size() == 2) {
-        if (m_args[1] != "")
-            addParsedAgrs(m_args[0], m_args[1]);
-
-        else
-            // notify for an error
-            ;
-    }
+    CreationCommandsParser::addParsedAgrs(*this);
 }
 
 Command &NewCommand::putArgs(vector<string> &args)
@@ -45,6 +36,8 @@ string LoadCommand::execute()
     parseArgs();
     DNASequence * dnaSequence = /*new NamedDNASequence(*/
             new DNASequence("A") /*, m_name)*/;
+
+    // read from file should be static
     dnaSequence->readFromFile(m_fileName);
 
     DNADataHolder::addDNA(*dnaSequence);
@@ -55,16 +48,7 @@ string LoadCommand::execute()
 
 void LoadCommand::parseArgs()
 {
-    if(m_args.size() == 1)
-        addParsedAgrs(m_args[0]);
-    else if(m_args.size() == 2) {
-        if (m_args[1] != "")
-            addParsedAgrs(m_args[0], m_args[1]);
-
-        else
-            // notify for an error
-            ;
-    }
+    CreationCommandsParser::addParsedAgrs(*this);
 }
 
 Command &LoadCommand::putArgs(vector<string> &args)
@@ -89,20 +73,26 @@ string DupCommand::execute()
 
 void DupCommand::parseArgs()
 {
-    if(m_args.size() == 1)
-        addParsedAgrs(m_args[0]);
-    else if(m_args.size() == 2) {
-        if (m_args[1] != "")
-            addParsedAgrs(m_args[0], m_args[1]);
-
-        else
-            // notify for an error
-            ;
-    }
+    CreationCommandsParser::addParsedAgrs(*this);
 }
 
 Command &DupCommand::putArgs(vector<string> &args)
 {
     m_args = args;
     return *this;
+}
+
+void CreationCommandsParser::addParsedAgrs(DNACreationCommands &command)
+{
+    if(command.m_args.size() == 1)
+        command.addParsedAgrs(command.m_args[0]);
+    else if(command.m_args.size() == 2) {
+        if (command.m_args[1] != "")
+            command.addParsedAgrs(command.m_args[0],
+                    command.m_args[1]);
+
+        else
+            // notify for an error
+            ;
+    }
 }

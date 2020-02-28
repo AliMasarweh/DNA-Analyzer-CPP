@@ -8,49 +8,57 @@
 #include <vector>
 #include "../command.h"
 
-class CreationCommandsParser
+class DNACreationCommands : public Command
 {
-    static void addParsedAgrs(Command& command);
+    friend class CreationCommandsParser;
+protected:
+    std::vector<std::string> m_args;
+
+private:
+    virtual void addParsedAgrs(std::string firstArg, std::string m_name = "") = 0;
 };
 
-class NewCommand : public Command {
+class CreationCommandsParser
+{
+public:
+    static void addParsedAgrs(DNACreationCommands& command);
+};
+
+class NewCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
     virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
-    std::vector<std::string> m_args;
 
-    void addParsedAgrs(std::string dnaSeq, std::string m_name = "");
+    void addParsedAgrs(std::string dnaSeq, std::string m_name);
     std::string m_dnaSeq;
     std::string m_name;
 };
 
-class LoadCommand : public Command {
+class LoadCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
     virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
-    std::vector<std::string> m_args;
 
-    void addParsedAgrs(std::string fileName, std::string m_name = "");
+    void addParsedAgrs(std::string fileName, std::string m_name);
     std::string m_fileName;
     std::string m_name;
 };
 
-class DupCommand : public Command {
+class DupCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
     virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
-    std::vector<std::string> m_args;
 
-    void addParsedAgrs(std::string sequenceId, std::string m_name = "");
+    void addParsedAgrs(std::string sequenceId, std::string m_name);
     size_t m_sequenceId;
     std::string m_name;
 };
