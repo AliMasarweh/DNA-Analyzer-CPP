@@ -8,6 +8,11 @@
 #include <vector>
 #include "../command.h"
 
+class CreationCommandsParser
+{
+    static void addParsedAgrs(Command& command);
+};
+
 class NewCommand : public Command {
 public:
     virtual std::string execute();
@@ -16,6 +21,10 @@ public:
 
 private:
     std::vector<std::string> m_args;
+
+    void addParsedAgrs(std::string dnaSeq, std::string m_name = "");
+    std::string m_dnaSeq;
+    std::string m_name;
 };
 
 class LoadCommand : public Command {
@@ -26,6 +35,10 @@ public:
 
 private:
     std::vector<std::string> m_args;
+
+    void addParsedAgrs(std::string fileName, std::string m_name = "");
+    std::string m_fileName;
+    std::string m_name;
 };
 
 class DupCommand : public Command {
@@ -36,6 +49,10 @@ public:
 
 private:
     std::vector<std::string> m_args;
+
+    void addParsedAgrs(std::string sequenceId, std::string m_name = "");
+    size_t m_sequenceId;
+    std::string m_name;
 };
 
 

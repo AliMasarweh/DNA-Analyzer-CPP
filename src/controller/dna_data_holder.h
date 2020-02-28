@@ -10,11 +10,13 @@
 #include "../model/dna_sequence.h"
 #include "../../../SmartPointerExercise/shared_pointer.h"
 
-class dna_data_holder {
+class DNADataHolder {
 public:
-    static void addIndexedDNA();
-    static void addNamedDNA();
-    static void addDNA();
+    static void addIndexedDNA(/*IndexedDNASequence& dnaSequence*/);
+    static void addNamedDNA(/*NamedDNASequence& dnaSequence*/);
+    static void addDNA(DNASequence& dnaSequence);
+    static DNASequence& getDNASequenceById(size_t id);
+    static DNASequence& getDNASequenceByName(std::string name);
 
 private:
     static std::map<size_t , SharedPointer<DNASequence> > s_idToDna;

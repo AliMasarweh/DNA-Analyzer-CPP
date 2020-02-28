@@ -3,46 +3,106 @@
 //
 
 #include "dna_creation_commands.h"
+#include "../../model/dna_sequence.h"
+#include "../dna_data_holder.h"
 
-std::string NewCommand::execute() {
-    return std::__cxx11::string();
+using namespace std;
+
+string NewCommand::execute()
+{
+    parseArgs();
+    DNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new DNASequence(m_dnaSeq) /*, m_name)*/;
+
+    DNADataHolder::addDNA(*dnaSequence);
+
+    /* <ID> NAME SEQ */
+    return __cxx11::string();
 }
 
-void NewCommand::parseArgs() {
+void NewCommand::parseArgs()
+{
+    if(m_args.size() == 1)
+        addParsedAgrs(m_args[0]);
+    else if(m_args.size() == 2) {
+        if (m_args[1] != "")
+            addParsedAgrs(m_args[0], m_args[1]);
 
+        else
+            // notify for an error
+            ;
+    }
 }
 
-Command &NewCommand::putArgs(std::vector<std::string> &args) {
+Command &NewCommand::putArgs(vector<string> &args)
+{
     m_args = args;
     return *this;
 }
 
-std::string LoadCommand::execute() {
-    return std::__cxx11::string();
+string LoadCommand::execute()
+{
+    parseArgs();
+    DNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new DNASequence("A") /*, m_name)*/;
+    dnaSequence->readFromFile(m_fileName);
+
+    DNADataHolder::addDNA(*dnaSequence);
+
+    /* <ID> NAME SEQ */
+    return __cxx11::string();
 }
 
-void LoadCommand::parseArgs() {
+void LoadCommand::parseArgs()
+{
+    if(m_args.size() == 1)
+        addParsedAgrs(m_args[0]);
+    else if(m_args.size() == 2) {
+        if (m_args[1] != "")
+            addParsedAgrs(m_args[0], m_args[1]);
 
+        else
+            // notify for an error
+            ;
+    }
 }
 
-Command &LoadCommand::putArgs(std::vector<std::string> &args) {
+Command &LoadCommand::putArgs(vector<string> &args)
+{
     m_args = args;
     return *this;
 }
 
-std::string DupCommand::execute() {
-    return std::__cxx11::string();
+string DupCommand::execute()
+{
+    parseArgs();
+    DNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new DNASequence(
+                    DNADataHolder::getDNASequenceById(m_sequenceId))
+                    /*, m_name)*/;
+
+    DNADataHolder::addDNA(*dnaSequence);
+
+    /* <ID> NAME SEQ */
+    return __cxx11::string();
 }
 
-void DupCommand::parseArgs() {
+void DupCommand::parseArgs()
+{
+    if(m_args.size() == 1)
+        addParsedAgrs(m_args[0]);
+    else if(m_args.size() == 2) {
+        if (m_args[1] != "")
+            addParsedAgrs(m_args[0], m_args[1]);
 
+        else
+            // notify for an error
+            ;
+    }
 }
 
-Command &DupCommand::putArgs(std::vector<std::string> &args) {
+Command &DupCommand::putArgs(vector<string> &args)
+{
     m_args = args;
     return *this;
-}
-
-DupCommand::DupCommand() {
-
 }
