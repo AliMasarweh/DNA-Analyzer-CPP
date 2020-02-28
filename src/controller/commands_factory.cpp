@@ -7,7 +7,7 @@
 
 using namespace std;
 
-map<string, Command *> CommandsFactory::s_commandByOperationName =
+map<string, SharedPointer<Command> > CommandsFactory::s_commandByOperationName =
         CommandsFactory::initCommands();
 
 Command &CommandsFactory::CreateCommandFromOperation(
@@ -22,22 +22,16 @@ Command &CommandsFactory::CreateCommandFromOperation(
     throw CommandNotFoundException();
 }
 
-map<string, Command *> &CommandsFactory::initCommands()
+map<string, SharedPointer<Command> > &CommandsFactory::initCommands()
 {
-    s_commandByOperationName["new"] = new NewCommand();
-    s_commandByOperationName["dup"] = new DupCommand();
-    s_commandByOperationName["load"] = new LoadCommand();
+    s_commandByOperationName["new"] = SharedPointer<Command>(
+            new NewCommand());
+    s_commandByOperationName["dup"] = SharedPointer<Command>(
+            new DupCommand());
+    s_commandByOperationName["load"] = SharedPointer<Command>(
+            new LoadCommand());
 
     return s_commandByOperationName;
-}
-
-void CommandsFactory::destructCommands()
-{
-    for(map<string, Command*>::iterator iter = s_commandByOperationName.begin();
-        iter != s_commandByOperationName.end(); ++iter)
-    {
-        delete iter->second;
-    }
 }
 
 CommandNotFoundException::CommandNotFoundException() :m_msg("Unknown command"){}

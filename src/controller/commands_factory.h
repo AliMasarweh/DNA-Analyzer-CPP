@@ -9,6 +9,8 @@
 #include <string>
 #include <map>
 #include <vector>
+
+#include "../../../SmartPointerExercise/shared_pointer.h"
 #include "command.h"
 
 class CommandsFactory
@@ -16,9 +18,8 @@ class CommandsFactory
 public:
     static Command& CreateCommandFromOperation(
             std::vector<std::string>& operation);
-    static std::map<std::string, Command*>& initCommands();
-    static void destructCommands();
-    static std::map<std::string, Command*> s_commandByOperationName;
+    static std::map<std::string, SharedPointer<Command> >& initCommands();
+    static std::map<std::string, SharedPointer<Command> > s_commandByOperationName;
 };
 
 

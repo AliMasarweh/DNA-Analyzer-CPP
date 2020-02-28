@@ -25,7 +25,9 @@ add_executable(controller_tester src/controller_tester.cpp src/controller/contro
         src/controller/controller.h src/controller/controller.cpp
         src/controller/commands/batch_command.h src/controller/commands/batch_command.cpp
         src/controller/commands/dna_creation_commands.h
-        src/controller/commands/dna_creation_commands.cpp)
+        src/controller/commands/dna_creation_commands.cpp
+        src/controller/dna_data_holder.h
+        src/controller/dna_data_holder.cpp)
 
 add_executable(view_tester src/view_tester.cpp src/view/parser.h src/view/parser.cpp
         src/view/operation.h src/view/operation.cpp)
