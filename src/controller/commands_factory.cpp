@@ -3,26 +3,27 @@
 //
 
 #include "commands_factory.h"
-#include "commands/new_command.h"
-#include "commands/dup_command.h"
-#include "commands/load_command.h"
+#include "commands/dna_creation_commands.h"
 
 using namespace std;
 
-map<string, Command *> CommandsFactory::s_commandByOperationName = CommandsFactory::initCommands();
+map<string, Command *> CommandsFactory::s_commandByOperationName =
+        CommandsFactory::initCommands();
 
-Command &CommandsFactory::CreateCommandFromOperation(string& operation)
+Command &CommandsFactory::CreateCommandFromOperation(
+        vector<string >& operationAndArgs)
 {
+    string operation = operationAndArgs[0];
+    operationAndArgs.erase(operationAndArgs.begin());
     if(s_commandByOperationName.find(operation) != s_commandByOperationName.end())
     {
-        return *s_commandByOperationName[operation];
+        return s_commandByOperationName[operation]->putArgs(operationAndArgs);
     }
-    throw exception();
+    throw CommandNotFoundException();
 }
 
 map<string, Command *> &CommandsFactory::initCommands()
 {
-    CommandsFactory::s_commandByOperationName;
     s_commandByOperationName["new"] = new NewCommand();
     s_commandByOperationName["dup"] = new DupCommand();
     s_commandByOperationName["load"] = new LoadCommand();
@@ -37,4 +38,10 @@ void CommandsFactory::destructCommands()
     {
         delete iter->second;
     }
+}
+
+CommandNotFoundException::CommandNotFoundException() :m_msg("Unknown command"){}
+
+const char *CommandNotFoundException::what() const throw() {
+    return m_msg.c_str();
 }

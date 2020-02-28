@@ -8,16 +8,29 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "command.h"
 
 class CommandsFactory
 {
 public:
-    static Command& CreateCommandFromOperation(std::string& operation);
+    static Command& CreateCommandFromOperation(
+            std::vector<std::string>& operation);
     static std::map<std::string, Command*>& initCommands();
     static void destructCommands();
     static std::map<std::string, Command*> s_commandByOperationName;
 };
 
+
+class CommandNotFoundException : public std::exception
+{
+public:
+    explicit CommandNotFoundException();
+    virtual ~CommandNotFoundException() throw (){}
+    virtual const char* what() const throw ();
+
+protected:
+    std::string m_msg;
+};
 
 #endif //DNANALYZER_COMMANDS_FACTORY_H

@@ -10,7 +10,9 @@
 class Command
 {
 public:
-    virtual std::string execute(std::string args[], size_t len) = 0;
+    virtual std::string execute() = 0;
+    virtual void parseArgs() = 0;
+    virtual Command& putArgs(std::vector<std::string>& args) = 0;
 };
 
 #endif //DNANALYZER_COMMAND_H
