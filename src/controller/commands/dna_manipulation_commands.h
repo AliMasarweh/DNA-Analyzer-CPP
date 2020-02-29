@@ -6,9 +6,55 @@
 #define DNANALYZER_DNA_MANIPULATION_COMMANDS_H
 
 
-class dna_manipulation_commands {
+#include <vector>
+#include "../command.h"
+#include "../../model/named_dna_sequence.h"
+#include "../../../../SmartPointerExercise/shared_pointer.h"
 
+class SliceCommand: public Command
+{
+public:
+    virtual std::string execute();
+
+    virtual void parseArgs();
+
+    virtual Command &putArgs(std::vector<std::string> &args);
+
+private:
+    std::vector<std::string>* m_args;
+    SharedPointer<DNASequence> m_dnaSeq;
+    size_t m_fromIndex;
+    size_t m_toIndex;
 };
 
+class ReplaceCommand: public Command
+{
+public:
+    virtual std::string execute();
+
+    virtual void parseArgs();
+
+    virtual Command &putArgs(std::vector<std::string> &args);
+};
+
+class ConcatCommand: public Command
+{
+public:
+    virtual std::string execute();
+
+    virtual void parseArgs();
+
+    virtual Command &putArgs(std::vector<std::string> &args);
+};
+
+class PairCommand: public Command
+{
+public:
+    virtual std::string execute();
+
+    virtual void parseArgs();
+
+    virtual Command &putArgs(std::vector<std::string> &args);
+};
 
 #endif //DNANALYZER_DNA_MANIPULATION_COMMANDS_H

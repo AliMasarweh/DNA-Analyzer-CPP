@@ -15,8 +15,8 @@ class DNADataHolder {
 public:
     static void addNamedDNA(/*NamedDNASequence& dnaSequence*/);
     static void addDNA(DNASequence& dnaSequence);
-    static DNASequence& getDNASequenceById(size_t id);
-    static DNASequence& getDNASequenceByName(std::string name);
+    static DNASequence& getDNASequence(size_t id);
+    static DNASequence& getDNASequence(std::string name);
 
 private:
     static std::map<size_t , SharedPointer<DNASequence> > s_idToDna;
