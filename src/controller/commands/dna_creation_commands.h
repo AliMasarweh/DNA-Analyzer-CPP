@@ -29,7 +29,6 @@ class NewCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
     inline void addParsedAgrs(std::string dnaSeq, std::string m_name);
@@ -47,7 +46,6 @@ class LoadCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
     inline void addParsedAgrs(std::string fileName, std::string m_name);
@@ -65,7 +63,6 @@ class DupCommand : public DNACreationCommands {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command& putArgs(std::vector<std::string>& args);
 
 private:
     inline void addParsedAgrs(std::string sequenceId, std::string name);
