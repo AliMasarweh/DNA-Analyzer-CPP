@@ -8,6 +8,12 @@
 
 using namespace std;
 
+Command &DNAManipulationCommand::putArgs(vector<string> &args)
+{
+    m_args = &args;
+    return *this;
+}
+
 string SliceCommand::execute() {
     *m_dnaSeq = m_dnaSeq->slice(m_fromIndex, m_toIndex);
 
@@ -41,12 +47,6 @@ void SliceCommand::parseArgs()
                 identifier.substr(indexAfterIdntifier));
     m_fromIndex = atoi(args[fromIndxArgIndx].c_str());
     m_fromIndex = atoi(args[endIndxArgIndx].c_str());
-}
-
-Command &SliceCommand::putArgs(vector<string> &args)
-{
-    m_args = &args;
-    return *this;
 }
 
 string ReplaceCommand::execute()
@@ -99,12 +99,6 @@ void ReplaceCommand::parseArgs()
     }
 }
 
-Command &ReplaceCommand::putArgs(vector<string> &args)
-{
-    m_args = &args;
-    return *this;
-}
-
 string ConcatCommand::execute()
 {
     for (size_t i = 0; i < m_dnaSeqToConcat.size(); ++i)
@@ -142,7 +136,6 @@ void ConcatCommand::parseArgs()
     {
         string identifier = args[dnaIndetifierArgIndx];
 
-
         if(identifier[dnaIndetifierArgIndx] == idIdentiger)
             *dnaSequencePntr = DNADataHolder::getDNASequence(
                     atoi(
@@ -159,13 +152,8 @@ void ConcatCommand::parseArgs()
     }
 }
 
-Command &ConcatCommand::putArgs(vector<string> &args)
+string PairCommand::execute()
 {
-    m_args = &args;
-    return *this;
-}
-
-string PairCommand::execute() {
     *m_dnaSeq = m_dnaSeq->pairing();
     return __cxx11::string();
 }
@@ -190,10 +178,4 @@ void PairCommand::parseArgs()
     else
         *m_dnaSeq = DNADataHolder::getDNASequence(
                 identifier.substr(indexAfterIdntifier));
-}
-
-Command &PairCommand::putArgs(vector<string> &args)
-{
-    m_args = &args;
-    return *this;
 }

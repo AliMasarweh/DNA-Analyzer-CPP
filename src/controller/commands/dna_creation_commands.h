@@ -15,6 +15,7 @@ class DNACreationCommand : public Command
 
 public:
     Command &putArgs(std::vector<std::string> &args);
+
 protected:
     std::vector<std::string>* m_args;
 
@@ -25,7 +26,7 @@ private:
 class CreationCommandsParser
 {
 public:
-    static void addParsedAgrs(DNACreationCommand& command);
+    static void ParseArgs(DNACreationCommand& command);
 };
 
 class NewCommand : public DNACreationCommand {

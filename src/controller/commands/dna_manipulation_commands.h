@@ -11,55 +11,56 @@
 #include "../../model/named_dna_sequence.h"
 #include "../../../../SmartPointerExercise/shared_pointer.h"
 
-class SliceCommand: public Command
+class DNAManipulationCommand: public Command
+{
+public:
+    virtual Command &putArgs(std::vector<std::string> &args);
+
+protected:
+    std::vector<std::string>* m_args;
+};
+
+class SliceCommand: public DNAManipulationCommand
 {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command &putArgs(std::vector<std::string> &args);
 
 private:
-    std::vector<std::string>* m_args;
     SharedPointer<DNASequence> m_dnaSeq;
     size_t m_fromIndex;
     size_t m_toIndex;
 };
 
-class ReplaceCommand: public Command
+class ReplaceCommand: public DNAManipulationCommand
 {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command &putArgs(std::vector<std::string> &args);
 
 private:
-    std::vector<std::string>* m_args;
     SharedPointer<DNASequence> m_dnaSeq;
     std::map<size_t, char> m_indexToNucleotide;
 };
 
-class ConcatCommand: public Command
+class ConcatCommand: public DNAManipulationCommand
 {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command &putArgs(std::vector<std::string> &args);
 
 private:
-    std::vector<std::string>* m_args;
     SharedPointer<DNASequence> m_dnaSeq;
     std::vector<SharedPointer<DNASequence> > m_dnaSeqToConcat;
 };
 
-class PairCommand: public Command
+class PairCommand: public DNAManipulationCommand
 {
 public:
     virtual std::string execute();
     virtual void parseArgs();
-    virtual Command &putArgs(std::vector<std::string> &args);
 
 private:
-    std::vector<std::string>* m_args;
     SharedPointer<DNASequence> m_dnaSeq;
 };
 
