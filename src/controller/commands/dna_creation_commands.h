@@ -26,7 +26,7 @@ private:
 class CreationCommandsParser
 {
 public:
-    static void ParseArgs(DNACreationCommand& command);
+    static void parseArgs(DNACreationCommand& command);
 };
 
 class NewCommand : public DNACreationCommand {

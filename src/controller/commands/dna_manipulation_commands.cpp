@@ -25,26 +25,15 @@ string SliceCommand::execute() {
 void SliceCommand::parseArgs()
 {
     static size_t argsLength = 3,
-        dnaIndetifierArgIndx = 0,
         fromIndxArgIndx = 1,
         endIndxArgIndx = 2;
-    static size_t indexAfterIdntifier = 1;
-    static char idIdentiger = '#';
 
     vector<string> args = *m_args;
     if(args.size() != argsLength)
         //throw an error
         ;
-    string identifier = args[dnaIndetifierArgIndx];
-    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                atoi(
-                        identifier.substr(indexAfterIdntifier)
-                        .c_str()
-                ));
-    else
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                identifier.substr(indexAfterIdntifier));
+    ManipulationCommandsParser::parseArgs(*this);
+
     m_fromIndex = atoi(args[fromIndxArgIndx].c_str());
     m_fromIndex = atoi(args[endIndxArgIndx].c_str());
 }
@@ -68,24 +57,11 @@ string ReplaceCommand::execute()
 
 void ReplaceCommand::parseArgs()
 {
-    static size_t dnaIndetifierArgIndx = 0,
-        indexAfterIdntifier = 1;
-    static char idIdentiger = '#';
-
     vector<string> args = *m_args;
     if(args.size() % 2 != 1)
         //throw an error
         ;
-    string identifier = args[dnaIndetifierArgIndx];
-    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                atoi(
-                        identifier.substr(indexAfterIdntifier)
-                                .c_str()
-                ));
-    else
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                identifier.substr(indexAfterIdntifier));
+    ManipulationCommandsParser::parseArgs(*this);
 
     args.erase(args.begin());
     for(int i = 0; i < args.size(); ++i)
@@ -111,44 +87,33 @@ string ConcatCommand::execute()
 
 void ConcatCommand::parseArgs()
 {
-    static size_t dnaIndetifierArgIndx = 0,
-            indexAfterIdntifier = 1;
-    static char idIdentiger = '#';
-
     vector<string> args = *m_args;
-    if(args.size() % 2 != 1)
+    static size_t atLeastTwoDNASeq = 2;
+    if(args.size() > atLeastTwoDNASeq)
         //throw an error
         ;
-    string identifier = args[dnaIndetifierArgIndx];
-    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                atoi(
-                        identifier.substr(indexAfterIdntifier)
-                                .c_str()
-                ));
-    else
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                identifier.substr(indexAfterIdntifier));
+    ManipulationCommandsParser::parseArgs(*this);
 
     args.erase(args.begin());
     DNASequence* dnaSequencePntr;
     for(int i = 0; i < args.size(); ++i)
     {
-        string identifier = args[dnaIndetifierArgIndx];
+        string identifier =
+                args[ManipulationCommandsParser::s_dnaIdentifierArgIndex];
 
-        if(identifier[dnaIndetifierArgIndx] == idIdentiger)
+        if(identifier[ManipulationCommandsParser::s_dnaIdentifierArgIndex]
+            == ManipulationCommandsParser::s_idIdentifier)
             *dnaSequencePntr = DNADataHolder::getDNASequence(
-                    atoi(
-                            identifier.substr(indexAfterIdntifier)
-                                    .c_str()
+                    atoi( identifier.substr(
+                    ManipulationCommandsParser::s_indexAfterIdentifier)
+                    .c_str()
                     ));
         else
             *dnaSequencePntr = DNADataHolder::getDNASequence(
-                    identifier.substr(indexAfterIdntifier));
+                    identifier.substr(
+                    ManipulationCommandsParser::s_indexAfterIdentifier));
         SharedPointer<DNASequence> sharedDnaSequencePntr(dnaSequencePntr);
-        m_dnaSeqToConcat.push_back(
-                sharedDnaSequencePntr
-                        );
+        m_dnaSeqToConcat.push_back(sharedDnaSequencePntr);
     }
 }
 
@@ -160,22 +125,24 @@ string PairCommand::execute()
 
 void PairCommand::parseArgs()
 {
-    static size_t dnaIndetifierArgIndx = 0,
-            indexAfterIdntifier = 1;
-    static char idIdentiger = '#';
-
     vector<string> args = *m_args;
-    if(args.size() % 2 != 1)
+    if(args.size() == 0)
         //throw an error
         ;
-    string identifier = args[dnaIndetifierArgIndx];
-    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
-        *m_dnaSeq = DNADataHolder::getDNASequence(
+    ManipulationCommandsParser::parseArgs(*this);
+}
+
+void ManipulationCommandsParser::parseArgs(DNAManipulationCommand &command)
+{
+    vector<string> args = *command.m_args;
+    string identifier = args[s_dnaIdentifierArgIndex];
+    if(identifier[s_dnaIdentifierArgIndex] == s_idIdentifier)
+        *command.m_dnaSeq = DNADataHolder::getDNASequence(
                 atoi(
-                        identifier.substr(indexAfterIdntifier)
+                        identifier.substr(s_indexAfterIdentifier)
                                 .c_str()
                 ));
     else
-        *m_dnaSeq = DNADataHolder::getDNASequence(
-                identifier.substr(indexAfterIdntifier));
+        *command.m_dnaSeq = DNADataHolder::getDNASequence(
+                identifier.substr(s_indexAfterIdentifier));
 }

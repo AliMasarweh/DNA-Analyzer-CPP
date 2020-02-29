@@ -13,11 +13,24 @@
 
 class DNAManipulationCommand: public Command
 {
+    friend class ManipulationCommandsParser;
+
 public:
     virtual Command &putArgs(std::vector<std::string> &args);
 
 protected:
     std::vector<std::string>* m_args;
+    SharedPointer<DNASequence> m_dnaSeq;
+};
+
+class ManipulationCommandsParser
+{
+public:
+    static void parseArgs(DNAManipulationCommand& command);
+
+    const static size_t s_dnaIdentifierArgIndex = 0;
+    const static size_t s_indexAfterIdentifier = 1;
+    const static char s_idIdentifier = '#';
 };
 
 class SliceCommand: public DNAManipulationCommand
@@ -27,7 +40,6 @@ public:
     virtual void parseArgs();
 
 private:
-    SharedPointer<DNASequence> m_dnaSeq;
     size_t m_fromIndex;
     size_t m_toIndex;
 };
@@ -39,7 +51,6 @@ public:
     virtual void parseArgs();
 
 private:
-    SharedPointer<DNASequence> m_dnaSeq;
     std::map<size_t, char> m_indexToNucleotide;
 };
 
@@ -50,7 +61,6 @@ public:
     virtual void parseArgs();
 
 private:
-    SharedPointer<DNASequence> m_dnaSeq;
     std::vector<SharedPointer<DNASequence> > m_dnaSeqToConcat;
 };
 
@@ -59,9 +69,6 @@ class PairCommand: public DNAManipulationCommand
 public:
     virtual std::string execute();
     virtual void parseArgs();
-
-private:
-    SharedPointer<DNASequence> m_dnaSeq;
 };
 
 #endif //DNANALYZER_DNA_MANIPULATION_COMMANDS_H

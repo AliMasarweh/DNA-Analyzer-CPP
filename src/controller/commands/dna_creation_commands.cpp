@@ -27,7 +27,7 @@ string NewCommand::execute()
 
 void NewCommand::parseArgs()
 {
-    CreationCommandsParser::ParseArgs(*this);
+    CreationCommandsParser::parseArgs(*this);
 }
 
 string LoadCommand::execute()
@@ -47,7 +47,7 @@ string LoadCommand::execute()
 
 void LoadCommand::parseArgs()
 {
-    CreationCommandsParser::ParseArgs(*this);
+    CreationCommandsParser::parseArgs(*this);
 }
 
 string DupCommand::execute()
@@ -66,10 +66,10 @@ string DupCommand::execute()
 
 void DupCommand::parseArgs()
 {
-    CreationCommandsParser::ParseArgs(*this);
+    CreationCommandsParser::parseArgs(*this);
 }
 
-void CreationCommandsParser::ParseArgs(DNACreationCommand &command)
+void CreationCommandsParser::parseArgs(DNACreationCommand &command)
 {
     if(command.m_args->size() == 1)
         command.addParsedAgrs(command.m_args->at(0));
