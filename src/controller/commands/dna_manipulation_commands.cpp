@@ -166,14 +166,34 @@ Command &ConcatCommand::putArgs(vector<string> &args)
 }
 
 string PairCommand::execute() {
+    *m_dnaSeq = m_dnaSeq->pairing();
     return __cxx11::string();
 }
 
-void PairCommand::parseArgs() {
+void PairCommand::parseArgs()
+{
+    static size_t dnaIndetifierArgIndx = 0,
+            indexAfterIdntifier = 1;
+    static char idIdentiger = '#';
 
+    vector<string> args = *m_args;
+    if(args.size() % 2 != 1)
+        //throw an error
+        ;
+    string identifier = args[dnaIndetifierArgIndx];
+    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
+        *m_dnaSeq = DNADataHolder::getDNASequence(
+                atoi(
+                        identifier.substr(indexAfterIdntifier)
+                                .c_str()
+                ));
+    else
+        *m_dnaSeq = DNADataHolder::getDNASequence(
+                identifier.substr(indexAfterIdntifier));
 }
 
-Command &PairCommand::putArgs(vector<string> &args) {
+Command &PairCommand::putArgs(vector<string> &args)
+{
     m_args = &args;
     return *this;
 }
