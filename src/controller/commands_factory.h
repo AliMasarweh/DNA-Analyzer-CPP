@@ -18,8 +18,10 @@ class CommandsFactory
 public:
     static Command& CreateCommandFromOperation(
             std::vector<std::string>& operation);
-    static std::map<std::string, SharedPointer<Command> >& initCommands();
     static std::map<std::string, SharedPointer<Command> > s_commandByOperationName;
+
+private:
+    static std::map<std::string, SharedPointer<Command> >& initCommands();
 };
 
 
