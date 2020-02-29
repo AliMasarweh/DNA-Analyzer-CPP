@@ -47,6 +47,8 @@ public:
 
 private:
     std::vector<std::string>* m_args;
+    SharedPointer<DNASequence> m_dnaSeq;
+    std::vector<SharedPointer<DNASequence> > m_dnaSeqToConcat;
 };
 
 class PairCommand: public Command
@@ -58,6 +60,7 @@ public:
 
 private:
     std::vector<std::string>* m_args;
+    SharedPointer<DNASequence> m_dnaSeq;
 };
 
 #endif //DNANALYZER_DNA_MANIPULATION_COMMANDS_H

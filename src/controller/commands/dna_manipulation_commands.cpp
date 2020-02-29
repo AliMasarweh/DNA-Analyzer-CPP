@@ -99,20 +99,68 @@ void ReplaceCommand::parseArgs()
     }
 }
 
-Command &ReplaceCommand::putArgs(vector<string> &args) {
+Command &ReplaceCommand::putArgs(vector<string> &args)
+{
     m_args = &args;
     return *this;
 }
 
-string ConcatCommand::execute() {
+string ConcatCommand::execute()
+{
+    for (size_t i = 0; i < m_dnaSeqToConcat.size(); ++i)
+    {
+        //TODO: overlaod operator concatination
+        //*m_dnaSeq += *m_dnaSeqToConcat[i];
+    }
     return __cxx11::string();
 }
 
-void ConcatCommand::parseArgs() {
+void ConcatCommand::parseArgs()
+{
+    static size_t dnaIndetifierArgIndx = 0,
+            indexAfterIdntifier = 1;
+    static char idIdentiger = '#';
 
+    vector<string> args = *m_args;
+    if(args.size() % 2 != 1)
+        //throw an error
+        ;
+    string identifier = args[dnaIndetifierArgIndx];
+    if(identifier[dnaIndetifierArgIndx] == idIdentiger)
+        *m_dnaSeq = DNADataHolder::getDNASequence(
+                atoi(
+                        identifier.substr(indexAfterIdntifier)
+                                .c_str()
+                ));
+    else
+        *m_dnaSeq = DNADataHolder::getDNASequence(
+                identifier.substr(indexAfterIdntifier));
+
+    args.erase(args.begin());
+    DNASequence* dnaSequencePntr;
+    for(int i = 0; i < args.size(); ++i)
+    {
+        string identifier = args[dnaIndetifierArgIndx];
+
+
+        if(identifier[dnaIndetifierArgIndx] == idIdentiger)
+            *dnaSequencePntr = DNADataHolder::getDNASequence(
+                    atoi(
+                            identifier.substr(indexAfterIdntifier)
+                                    .c_str()
+                    ));
+        else
+            *dnaSequencePntr = DNADataHolder::getDNASequence(
+                    identifier.substr(indexAfterIdntifier));
+        SharedPointer<DNASequence> sharedDnaSequencePntr(dnaSequencePntr);
+        m_dnaSeqToConcat.push_back(
+                sharedDnaSequencePntr
+                        );
+    }
 }
 
-Command &ConcatCommand::putArgs(vector<string> &args) {
+Command &ConcatCommand::putArgs(vector<string> &args)
+{
     m_args = &args;
     return *this;
 }
