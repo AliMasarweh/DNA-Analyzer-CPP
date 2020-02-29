@@ -5,16 +5,15 @@
 #include <string>
 #include <assert.h>
 #include <cstdlib>
-#include "../model/dna_sequence.h"
-#include "indexed_dna_sequence.h"
+#include "named_dna_sequence.h"
 using namespace std;
 
 
 class Cache{
 public:
-    static map<size_t, IndexedDNASequence*> idToDNASequence;
+    static map<size_t, NamedDNASequence*> idToDNASequence;
 };
-map<size_t, IndexedDNASequence*> Cache::idToDNASequence;
+map<size_t, NamedDNASequence*> Cache::idToDNASequence;
 
 class CommandsParser{
 public:
@@ -64,16 +63,16 @@ void CommandsParser::parseInputCommand(string& basicString)
                 substr(0, basicString.find(" "));
         sliceUntillSpace(basicString);
         if(basicString.find("@") == 0)
-            IndexedDNASequence indexedDnaSequence(seq,
+            NamedDNASequence indexedDnaSequence(seq,
                     basicString.substr(1));
         else
-            IndexedDNASequence indexedDnaSequence(seq);*/
+            NamedDNASequence indexedDnaSequence(seq);*/
 
-        IndexedDNASequence indexedDnaSequence(
+        NamedDNASequence indexedDnaSequence(
                 Creational::parseSeqOrFileArgument(basicString),
                 Creational::parseNameArgumentIfExists(basicString));
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                new IndexedDNASequence(indexedDnaSequence);
+                new NamedDNASequence(indexedDnaSequence);
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
             indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
             << endl;
@@ -81,17 +80,17 @@ void CommandsParser::parseInputCommand(string& basicString)
         string id = Creational::parseSeqOrFileArgument(basicString);
         assert(id[0] == '#');
         size_t idAsNumber = atoi(id.substr(1).c_str());
-        IndexedDNASequence indexedDnaSequence(
+        NamedDNASequence indexedDnaSequence(
                 Cache::idToDNASequence[idAsNumber]->asString(),
                 Creational::parseNameArgumentIfExists(basicString));
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                new IndexedDNASequence(indexedDnaSequence);
+                new NamedDNASequence(indexedDnaSequence);
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
              indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
              << endl;
     } else if(op == commands[LOAD]){
         string path = Creational::parseSeqOrFileArgument(basicString);
-        IndexedDNASequence indexedDnaSequence("A",
+        NamedDNASequence indexedDnaSequence("A",
                 Creational::parseNameArgumentIfExists(basicString));
         indexedDnaSequence.readFromFile(path);
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
@@ -114,12 +113,12 @@ void CommandsParser::parseInputCommand(string& basicString)
         string end = Creational::parseSeqOrFileArgument(basicString);
         size_t endAsNumber = atoi(end.c_str());
 
-        IndexedDNASequence indexedDnaSequence(
+        NamedDNASequence indexedDnaSequence(
                 Cache::idToDNASequence[idAsNumber]->
                 slice(startAsNumber, endAsNumber).asString(), "");
 
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                new IndexedDNASequence(indexedDnaSequence);
+                new NamedDNASequence(indexedDnaSequence);
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
              indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
              << endl;
@@ -132,12 +131,12 @@ void CommandsParser::parseInputCommand(string& basicString)
         assert(id[0] == '#');
         size_t idAsNumber = atoi(id.substr(1).c_str());
 
-        IndexedDNASequence indexedDnaSequence(
+        NamedDNASequence indexedDnaSequence(
                 Cache::idToDNASequence[idAsNumber]->
                         pairing().asString(), "");
 
         Cache::idToDNASequence[indexedDnaSequence.getId()] =
-                new IndexedDNASequence(indexedDnaSequence);
+                new NamedDNASequence(indexedDnaSequence);
         cout << '[' << indexedDnaSequence.getId() << "] "  <<
              indexedDnaSequence.getName() << ' ' << indexedDnaSequence.asString()
              << endl;

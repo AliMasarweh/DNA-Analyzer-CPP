@@ -3,7 +3,6 @@
 //
 
 #include "dna_creation_commands.h"
-#include "../../model/dna_sequence.h"
 #include "../dna_data_holder.h"
 
 using namespace std;

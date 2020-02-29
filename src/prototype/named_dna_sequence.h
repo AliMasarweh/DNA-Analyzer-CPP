@@ -2,17 +2,17 @@
 // Created by ali-masa on 2/3/20.
 //
 
-#ifndef DNANALYZER_INDEXED_DNA_SEQUENCE_H
-#define DNANALYZER_INDEXED_DNA_SEQUENCE_H
+#ifndef DNANALYZER_NAMED_DNA_SEQUENCE_H
+#define DNANALYZER_NAMED_DNA_SEQUENCE_H
 
 #include <sstream>
 #include <cstring>
 #include "../model/dna_sequence.h"
 
-class IndexedDNASequence: public DNASequence
+class NamedDNASequence: public DNASequence
 {
 public:
-    explicit IndexedDNASequence(const char dnaSeq[], const char name[] = NULL) : DNASequence(dnaSeq),
+    explicit NamedDNASequence(const char dnaSeq[], const char name[] = NULL) : DNASequence(dnaSeq),
         m_id(generateId()){
         if(name)
             this->m_name = name;
@@ -20,7 +20,7 @@ public:
             this->m_name = generateName(this->m_id);
     }
 
-    explicit IndexedDNASequence(const std::string dnaSeq,
+    explicit NamedDNASequence(const std::string dnaSeq,
             const std::string name = "")
         : DNASequence(dnaSeq), m_id(generateId()){
         if(strcmp(name.c_str(), "") != 0)
@@ -56,4 +56,4 @@ private:
     std::string m_name;
 };
 
-#endif //DNANALYZER_INDEXED_DNA_SEQUENCE_H
+#endif //DNANALYZER_NAMED_DNA_SEQUENCE_H

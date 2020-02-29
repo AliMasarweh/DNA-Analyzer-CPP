@@ -7,12 +7,12 @@
 
 
 #include <cstddef>
-#include "../model/dna_sequence.h"
+#include <map>
+#include "../../../DNA-Sequence/dna_sequence.h"
 #include "../../../SmartPointerExercise/shared_pointer.h"
 
 class DNADataHolder {
 public:
-    static void addIndexedDNA(/*IndexedDNASequence& dnaSequence*/);
     static void addNamedDNA(/*NamedDNASequence& dnaSequence*/);
     static void addDNA(DNASequence& dnaSequence);
     static DNASequence& getDNASequenceById(size_t id);
