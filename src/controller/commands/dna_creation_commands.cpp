@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Command &DNACreationCommands::putArgs(std::vector<std::string> &args)
+Command &DNACreationCommand::putArgs(std::vector<std::string> &args)
 {
     m_args = args;
     return *this;
@@ -69,7 +69,7 @@ void DupCommand::parseArgs()
     CreationCommandsParser::addParsedAgrs(*this);
 }
 
-void CreationCommandsParser::addParsedAgrs(DNACreationCommands &command)
+void CreationCommandsParser::addParsedAgrs(DNACreationCommand &command)
 {
     if(command.m_args.size() == 1)
         command.addParsedAgrs(command.m_args[0]);

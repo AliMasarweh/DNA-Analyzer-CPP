@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include "../command.h"
 
-class DNACreationCommands : public Command
+class DNACreationCommand : public Command
 {
     friend class CreationCommandsParser;
 protected:
@@ -22,10 +22,10 @@ private:
 class CreationCommandsParser
 {
 public:
-    static void addParsedAgrs(DNACreationCommands& command);
+    static void addParsedAgrs(DNACreationCommand& command);
 };
 
-class NewCommand : public DNACreationCommands {
+class NewCommand : public DNACreationCommand {
 public:
     virtual std::string execute();
     virtual void parseArgs();
@@ -42,7 +42,7 @@ inline void NewCommand::addParsedAgrs(std::string dnaSeq, std::string name)
     m_name = name;
 }
 
-class LoadCommand : public DNACreationCommands {
+class LoadCommand : public DNACreationCommand {
 public:
     virtual std::string execute();
     virtual void parseArgs();
@@ -59,7 +59,7 @@ inline void LoadCommand::addParsedAgrs(std::string fileName, std::string name)
     m_name = name;
 }
 
-class DupCommand : public DNACreationCommands {
+class DupCommand : public DNACreationCommand {
 public:
     virtual std::string execute();
     virtual void parseArgs();
