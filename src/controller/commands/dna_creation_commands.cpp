@@ -9,7 +9,7 @@ using namespace std;
 
 Command &DNACreationCommand::putArgs(std::vector<std::string> &args)
 {
-    m_args = args;
+    m_args = *args;
     return *this;
 }
 
@@ -55,7 +55,7 @@ string DupCommand::execute()
     parseArgs();
     DNASequence * dnaSequence = /*new NamedDNASequence(*/
             new DNASequence(
-                    DNADataHolder::getDNASequenceById(m_sequenceId))
+                    DNADataHolder::getDNASequence(m_sequenceId))
                     /*, m_name)*/;
 
     DNADataHolder::addDNA(*dnaSequence);
@@ -71,12 +71,12 @@ void DupCommand::parseArgs()
 
 void CreationCommandsParser::addParsedAgrs(DNACreationCommand &command)
 {
-    if(command.m_args.size() == 1)
-        command.addParsedAgrs(command.m_args[0]);
-    else if(command.m_args.size() == 2) {
-        if (command.m_args[1] != "")
-            command.addParsedAgrs(command.m_args[0],
-                    command.m_args[1]);
+    if(command.m_args->size() == 1)
+        command.addParsedAgrs(command.m_args->at(0));
+    else if(command.m_args->size() == 2) {
+        if (command.m_args->at(1) != "")
+            command.addParsedAgrs(command.m_args->at(0),
+                    command.m_args->at(1));
 
         else
             // notify for an error
