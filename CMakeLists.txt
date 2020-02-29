@@ -16,7 +16,7 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 add_executable(prototype src/prototype/prototype.cpp src/model/dna_sequence.cpp
         src/model/nucleotide_analyzer.cpp src/model/codon_analyzer.cpp
-        src/prototype/named_dna_sequence.h src/model/named_dna_sequence.h src/model/named_dna_sequence.cpp)
+        src/model/named_dna_sequence.h src/model/named_dna_sequence.cpp)
 
 add_executable(controller_tester src/controller_tester.cpp src/controller/controller.h
         src/controller/commands_factory.h src/controller/commands_factory.cpp

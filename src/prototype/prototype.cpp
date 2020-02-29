@@ -5,7 +5,7 @@
 #include <string>
 #include <assert.h>
 #include <cstdlib>
-#include "named_dna_sequence.h"
+#include "../model/named_dna_sequence.h"
 using namespace std;
 
 
