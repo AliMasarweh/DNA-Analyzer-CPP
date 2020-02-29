@@ -15,7 +15,8 @@ Command &DNAManipulationCommand::putArgs(vector<string> &args)
 }
 
 string SliceCommand::execute() {
-    *m_dnaSeq = m_dnaSeq->slice(m_fromIndex, m_toIndex);
+    *m_dnaSeq = m_dnaSeq->slice(m_indexes[0],
+            m_indexes[1]);
 
     // TODO:
     // <Id> <Name> <Seq>
@@ -34,14 +35,14 @@ void SliceCommand::parseArgs()
         ;
     ManipulationCommandsParser::parseArgs(*this);
 
-    m_fromIndex = atoi(args[fromIndxArgIndx].c_str());
-    m_fromIndex = atoi(args[endIndxArgIndx].c_str());
+    m_indexes.push_back(atoi(args[fromIndxArgIndx].c_str()));
+    m_indexes.push_back(atoi(args[endIndxArgIndx].c_str()));
 }
 
 string ReplaceCommand::execute()
 {
     DNASequence tmp = *(m_dnaSeq);
-    for(map<size_t,char>::iterator iter = m_indexToNucleotide.begin();
+    for(vector<pair<size_t,char> >::iterator iter = m_indexToNucleotide.begin();
     iter != m_indexToNucleotide.end(); ++iter)
     {
         size_t index =  iter->first;
@@ -71,7 +72,7 @@ void ReplaceCommand::parseArgs()
             //throw an error
             ;
         char nucleotide = args[++i].c_str()[0];
-        m_indexToNucleotide[index] = nucleotide;
+        m_indexToNucleotide.push_back(make_pair(index,  nucleotide));
     }
 }
 

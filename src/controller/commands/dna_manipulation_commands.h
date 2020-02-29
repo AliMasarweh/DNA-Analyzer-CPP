@@ -11,6 +11,7 @@
 #include "../../model/named_dna_sequence.h"
 #include "../../../../SmartPointerExercise/shared_pointer.h"
 
+// TODO: add template T & vector<T>
 class DNAManipulationCommand: public Command
 {
     friend class ManipulationCommandsParser;
@@ -40,8 +41,7 @@ public:
     virtual void parseArgs();
 
 private:
-    size_t m_fromIndex;
-    size_t m_toIndex;
+    std::vector<size_t> m_indexes;
 };
 
 class ReplaceCommand: public DNAManipulationCommand
@@ -51,7 +51,7 @@ public:
     virtual void parseArgs();
 
 private:
-    std::map<size_t, char> m_indexToNucleotide;
+    std::vector<std::pair<size_t, char> > m_indexToNucleotide;
 };
 
 class ConcatCommand: public DNAManipulationCommand
