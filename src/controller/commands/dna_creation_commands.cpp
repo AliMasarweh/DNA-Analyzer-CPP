@@ -16,8 +16,8 @@ Command &DNACreationCommand::putArgs(std::vector<std::string> &args)
 string NewCommand::execute()
 {
     parseArgs();
-    DNASequence * dnaSequence = /*new NamedDNASequence(*/
-            new DNASequence(m_dnaSeq) /*, m_name)*/;
+    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new NamedDNASequence(m_dnaSeq) /*, m_name)*/;
 
     DNADataHolder::addDNA(*dnaSequence);
 
@@ -33,8 +33,8 @@ void NewCommand::parseArgs()
 string LoadCommand::execute()
 {
     parseArgs();
-    DNASequence * dnaSequence = /*new NamedDNASequence(*/
-            new DNASequence("A") /*, m_name)*/;
+    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new NamedDNASequence("A") /*, m_name)*/;
 
     // read from file should be static
     dnaSequence->readFromFile(m_fileName);
@@ -53,8 +53,8 @@ void LoadCommand::parseArgs()
 string DupCommand::execute()
 {
     parseArgs();
-    DNASequence * dnaSequence = /*new NamedDNASequence(*/
-            new DNASequence(
+    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+            new NamedDNASequence(
                     DNADataHolder::getDNASequence(m_sequenceId))
                     /*, m_name)*/;
 

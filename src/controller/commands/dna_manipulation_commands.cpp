@@ -113,15 +113,15 @@ void ConcatCommand::preValidator()
 void ConcatCommand::postStaticParsingParser()
 {
     vector<string>& args = *m_args;
-    SharedPointer<DNASequence> sharedDnaSequencePntr;
+    SharedPointer<DNASequence> sharedDNASequencePntr;
     string identifier;
     for(int i = 0; i < args.size(); ++i)
     {
         identifier =
                 args[ManipulationCommandsParser::s_dnaIdentifierArgIndex];
-        *sharedDnaSequencePntr = ManipulationCommandsParser::
+        *sharedDNASequencePntr = ManipulationCommandsParser::
         getDNASeqByIdentifier(identifier);
-        m_dnaSeqToConcat.push_back(sharedDnaSequencePntr);
+        m_dnaSeqToConcat.push_back(sharedDNASequencePntr);
     }
 }
 
