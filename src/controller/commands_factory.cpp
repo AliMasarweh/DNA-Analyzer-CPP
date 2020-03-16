@@ -22,6 +22,18 @@ Command &CommandsFactory::CreateCommandFromOperation(
     throw CommandNotFoundException();
 }
 
+Command& CommandsFactory::CreateCommandFromOperation(
+        Operation& operation)
+{
+    string operationName = operation.getName();
+    vector<string> operationAndArgs = operation.getArgs();
+    if(s_commandByOperationName.find(operationName) != s_commandByOperationName.end())
+    {
+        return s_commandByOperationName[operationName]->putArgs(operationAndArgs);
+    }
+    throw CommandNotFoundException();
+}
+
 map<string, SharedPointer<Command> > &CommandsFactory::initCommands()
 {
     s_commandByOperationName["new"] = SharedPointer<Command>(

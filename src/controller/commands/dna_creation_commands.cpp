@@ -9,7 +9,7 @@ using namespace std;
 
 Command &DNACreationCommand::putArgs(std::vector<std::string> &args)
 {
-    *m_args = args;
+    m_args = args;
     return *this;
 }
 
@@ -71,12 +71,12 @@ void DupCommand::parseArgs()
 
 void CreationCommandsParser::parseArgs(DNACreationCommand &command)
 {
-    if(command.m_args->size() == 1)
-        command.addParsedAgrs(command.m_args->at(0));
-    else if(command.m_args->size() == 2) {
-        if (command.m_args->at(1) != "")
-            command.addParsedAgrs(command.m_args->at(0),
-                    command.m_args->at(1));
+    if(command.m_args.size() == 1)
+        command.addParsedAgrs(command.m_args.at(0));
+    else if(command.m_args.size() == 2) {
+        if (command.m_args.at(1) != "")
+            command.addParsedAgrs(command.m_args.at(0),
+                    command.m_args.at(1));
 
         else
             // notify for an error

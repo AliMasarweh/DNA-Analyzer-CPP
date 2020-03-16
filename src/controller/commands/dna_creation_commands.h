@@ -15,9 +15,10 @@ class DNACreationCommand : public Command
 
 public:
     Command &putArgs(std::vector<std::string> &args);
+    virtual ~DNACreationCommand() {}
 
 protected:
-    std::vector<std::string>* m_args;
+    std::vector<std::string> m_args;
 
 private:
     virtual void addParsedAgrs(std::string firstArg, std::string m_name = "") = 0;
