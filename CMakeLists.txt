@@ -18,7 +18,7 @@ add_executable(prototype src/prototype/prototype.cpp src/model/dna_sequence.cpp
         src/model/nucleotide_analyzer.cpp src/model/codon_analyzer.cpp
         src/model/named_dna_sequence.h src/model/named_dna_sequence.cpp)
 
-add_executable(dna_analyzer src/main.cpp src/controller/controller.h
+add_executable(contorol_tester src/main.cpp src/controller/controller.h
         src/controller/commands_factory.h src/controller/commands_factory.cpp
         src/controller/controller.h src/controller/controller.cpp
         src/controller/commands/batch_command.h src/controller/commands/batch_command.cpp
@@ -29,5 +29,16 @@ add_executable(dna_analyzer src/main.cpp src/controller/controller.h
         src/controller/dna_data_holder.h
         src/controller/dna_data_holder.cpp)
 
-add_executable(view_tester src/view_tester.cpp src/view/command_parser.h src/view/command_parser.cpp
+add_executable(view_tester src/main.cpp src/view_tester.cpp src/view/command_parser.h src/view/command_parser.cpp
         src/view/operation.h src/view/operation.cpp)
+
+file(GLOB controller_src "src/controller/*")
+file(GLOB commands_src "src/controller/commands/*")
+file(GLOB model_src "src/model/*")
+file(GLOB view_src "src/view/*")
+
+add_executable(dna_analyzer src/main.cpp
+        ${controller_src}
+        ${commands_src}
+        ${model_src}
+        ${view_src})

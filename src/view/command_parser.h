@@ -9,6 +9,7 @@
 #include "operation.h"
 
 class CommandParser {
+public:
     Operation parse(std::string& str);
 
 private:

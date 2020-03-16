@@ -20,3 +20,13 @@ void Operation::addTheArgs(std::vector<std::string> &args)
 {
     this->m_args = args;
 }
+
+std::string &Operation::getName()
+{
+    return m_name;
+}
+
+std::vector<std::string> &Operation::getArgs()
+{
+    return m_args;
+}

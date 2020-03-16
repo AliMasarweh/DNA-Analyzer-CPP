@@ -12,10 +12,13 @@ class Operation
 {
 public:
     Operation();
-    Operation(std::string& name);
+    explicit Operation(std::string& name);
     Operation(std::string& name, std::vector<std::string>& args);
     void setName(std::string& name);
     void addTheArgs(std::vector<std::string>& args);
+
+    std::string& getName();
+    std::vector<std::string>& getArgs();
 private:
     std::string m_name;
     std::vector<std::string> m_args;
