@@ -14,7 +14,7 @@ class DNACreationCommand : public Command
     friend class CreationCommandsParser;
 
 public:
-    Command &putArgs(std::vector<std::string> &args);
+    Command& putArgs(std::vector<std::string>& args);
     virtual ~DNACreationCommand() {}
 
 protected:
@@ -36,16 +36,10 @@ public:
     virtual void parseArgs();
 
 private:
-    inline void addParsedAgrs(std::string dnaSeq, std::string m_name);
+    void addParsedAgrs(std::string dnaSeq, std::string m_name);
     std::string m_dnaSeq;
     std::string m_name;
 };
-
-inline void NewCommand::addParsedAgrs(std::string dnaSeq, std::string name)
-{
-    m_dnaSeq = dnaSeq;
-    m_name = name;
-}
 
 class LoadCommand : public DNACreationCommand {
 public:

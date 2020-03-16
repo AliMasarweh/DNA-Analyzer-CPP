@@ -30,6 +30,12 @@ void NewCommand::parseArgs()
     CreationCommandsParser::parseArgs(*this);
 }
 
+void NewCommand::addParsedAgrs(std::string dnaSeq, std::string name)
+{
+    m_dnaSeq = dnaSeq;
+    m_name = name;
+}
+
 string LoadCommand::execute()
 {
     parseArgs();
