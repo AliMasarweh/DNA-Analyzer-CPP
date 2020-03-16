@@ -30,10 +30,9 @@ private:
 class CommandsFactory
 {
 public:
-    static Command& CreateCommandFromOperation(
-            std::vector<std::string>& operation);
-    static Command& CreateCommandFromOperation(
-            Operation& operation);
+    static Command& CreateCommandFromOperation(std::vector<std::string>& operation);
+    static Command& CreateCommandFromOperation(Operation& operation);
+    static void destructCommands();
     static std::map<std::string, Command*> s_commandByOperationName;
 
 private:

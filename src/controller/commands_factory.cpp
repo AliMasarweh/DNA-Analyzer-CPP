@@ -93,3 +93,13 @@ std::map<std::string, Command *> CommandsFactory::initCommands()
 
     return ans;
 }
+
+void CommandsFactory::destructCommands()
+{
+
+    for (map<string, Command *>::iterator i = s_commandByOperationName.begin();
+            i != s_commandByOperationName.end(); ++i)
+    {
+        delete i->second;
+    }
+}

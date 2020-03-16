@@ -12,14 +12,15 @@
 #include "../../../../SmartPointerExercise/shared_pointer.h"
 
 
-class DNAManipulationCommand: public Command {
+class DNAManipulationCommand: public Command
+{
     friend class ManipulationCommandsParser;
 
 public:
     virtual Command &putArgs(std::vector<std::string> &args);
 
 protected:
-    std::vector<std::string> *m_args;
+    std::vector<std::string> m_args;
     SharedPointer<DNASequence> m_dnaSeq;
 
 private:

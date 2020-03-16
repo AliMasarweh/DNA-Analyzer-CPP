@@ -10,7 +10,7 @@ using namespace std;
 
 Command &DNAManipulationCommand::putArgs(vector<string> &args)
 {
-    m_args = &args;
+    m_args = args;
     return *this;
 }
 
@@ -31,17 +31,15 @@ void SliceCommand::parseArgs()
 
 void SliceCommand::preValidator()
 {
-    vector<string>& args = *m_args;
-    if(args.size() != s_argsLength)
+    if(m_args.size() != s_argsLength)
         //throw an error
         ;
 }
 
 void SliceCommand::postStaticParsingParser()
 {
-    vector<string>& args = *m_args;
-    m_indexes.push_back(atoi(args[s_fromIndxArgIndx].c_str()));
-    m_indexes.push_back(atoi(args[s_endIndxArgIndx].c_str()));
+    m_indexes.push_back(atoi(m_args[s_fromIndxArgIndx].c_str()));
+    m_indexes.push_back(atoi(m_args[s_endIndxArgIndx].c_str()));
 }
 
 string ReplaceCommand::execute()
@@ -67,22 +65,20 @@ void ReplaceCommand::parseArgs()
 
 void ReplaceCommand::preValidator()
 {
-    vector<string>& args = *m_args;
-    if(args.size() % 2 != 1)
+    if(m_args.size() % 2 != 1)
         //throw an error
         ;
 }
 
 void ReplaceCommand::postStaticParsingParser()
 {
-    vector<string>& args = *m_args;
-    for(int i = 0; i < args.size(); ++i)
+    for(int i = 0; i < m_args.size(); ++i)
     {
-        size_t index = atoi(args[i].c_str());
-        if(args[++i].c_str()[1] != 0)
+        size_t index = atoi(m_args[i].c_str());
+        if(m_args[++i].c_str()[1] != 0)
             //throw an error
             ;
-        char nucleotide = args[i].c_str()[0];
+        char nucleotide = m_args[i].c_str()[0];
         m_indexToNucleotide.push_back(make_pair(index,  nucleotide));
     }
 }
@@ -104,21 +100,19 @@ void ConcatCommand::parseArgs()
 
 void ConcatCommand::preValidator()
 {
-    vector<string>& args = *m_args;
-    if(args.size() > s_atLeastTwoDNASeq)
+    if(m_args.size() > s_atLeastTwoDNASeq)
         //throw an error
         ;
 }
 
 void ConcatCommand::postStaticParsingParser()
 {
-    vector<string>& args = *m_args;
     SharedPointer<DNASequence> sharedDNASequencePntr;
     string identifier;
-    for(int i = 0; i < args.size(); ++i)
+    for(int i = 0; i < m_args.size(); ++i)
     {
         identifier =
-                args[ManipulationCommandsParser::s_dnaIdentifierArgIndex];
+                m_args[ManipulationCommandsParser::s_dnaIdentifierArgIndex];
         *sharedDNASequencePntr = ManipulationCommandsParser::
         getDNASeqByIdentifier(identifier);
         m_dnaSeqToConcat.push_back(sharedDNASequencePntr);
@@ -138,8 +132,7 @@ void PairCommand::parseArgs()
 
 void PairCommand::preValidator()
 {
-    vector<string>& args = *m_args;
-    if(args.size() == 0)
+    if(m_args.size() == 0)
         //throw an error
         ;
 }
@@ -150,11 +143,10 @@ void ManipulationCommandsParser::parseArgs(DNAManipulationCommand &command)
 {
     command.preValidator();
 
-    vector<string>& args = *command.m_args;
-    string identifier = args[s_dnaIdentifierArgIndex];
+    string identifier = command.m_args[s_dnaIdentifierArgIndex];
     *command.m_dnaSeq =
             ManipulationCommandsParser::getDNASeqByIdentifier(identifier);
-    args.erase(args.begin());
+    command.m_args.erase(command.m_args.begin());
 
     command.postStaticParsingParser();
 }
