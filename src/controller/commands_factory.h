@@ -14,7 +14,7 @@
 #include "command.h"
 #include "../view/operation.h"
 
-class CommandsFactory
+class CommandsFactorySharedPointer
 {
 public:
     static Command& CreateCommandFromOperation(
@@ -24,7 +24,20 @@ public:
     static std::map<std::string, SharedPointer<Command> > s_commandByOperationName;
 
 private:
-    static std::map<std::string, SharedPointer<Command> >& initCommands();
+    static std::map<std::string, SharedPointer<Command> > initCommands();
+};
+
+class CommandsFactory
+{
+public:
+    static Command& CreateCommandFromOperation(
+            std::vector<std::string>& operation);
+    static Command& CreateCommandFromOperation(
+            Operation& operation);
+    static std::map<std::string, Command*> s_commandByOperationName;
+
+private:
+    static std::map<std::string, Command*> initCommands();
 };
 
 
