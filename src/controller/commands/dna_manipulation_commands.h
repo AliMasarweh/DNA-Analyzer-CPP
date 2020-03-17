@@ -17,12 +17,14 @@ class DNAManipulationCommand: public Command
     friend class ManipulationCommandsParser;
 
 public:
+    DNAManipulationCommand();
     virtual Command &putArgs(std::vector<std::string> &args);
 
 protected:
     std::vector<std::string> m_args;
     SharedPointer<NamedDNASequence> m_dnaSeq;
     std::string m_newName;
+    static std::string s_sameName;
 
 private:
     virtual void preValidator() = 0;

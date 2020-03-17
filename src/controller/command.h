@@ -8,6 +8,7 @@
 #include <string>
 #include "../view/observer.h"
 #include "../model/named_dna_sequence.h"
+#include "../../../SmartPointerExercise/shared_pointer.h"
 
 class Command: public Subject
 {
@@ -21,7 +22,7 @@ public:
     std::string notifyMessage();
 
 protected:
-    NamedDNASequence* m_namedDnaSequencePntr;
+    SharedPointer<NamedDNASequence> m_namedDnaSequencePntr;
 };
 
 #endif //DNANALYZER_COMMAND_H
