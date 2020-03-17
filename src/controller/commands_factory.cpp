@@ -41,12 +41,13 @@ Command& CommandsFactorySharedPointer::CreateCommandFromOperation(
 map<string, SharedPointer<Command> > CommandsFactorySharedPointer::initCommands()
 {
     map<string, SharedPointer<Command> > ans;
-    ans.insert(make_pair("new", SharedPointer<Command>(
-            new NewCommand())));
-    ans.insert(make_pair("dup", SharedPointer<Command>(
+    ans["new"] = SharedPointer<Command>(new NewCommand());
+    ans["dup"] = SharedPointer<Command>(new DupCommand());
+    ans["load"] = SharedPointer<Command>(new LoadCommand());
+    /*ans.insert(make_pair("dup", SharedPointer<Command>(
             new DupCommand())));
     ans.insert(make_pair("load", SharedPointer<Command>(
-            new LoadCommand())));
+            new LoadCommand())));*/
 
     return ans;
 }

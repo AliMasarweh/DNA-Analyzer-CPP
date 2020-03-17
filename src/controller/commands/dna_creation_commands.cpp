@@ -20,7 +20,7 @@ string NewCommand::execute()
             new NamedDNASequence(m_dnaSeq, m_name));
 
     DNADataHolder::addDNA(*m_namedDnaSequencePntr);
-    this->notifyMessage();
+    /*this->notifyMessage();*/
 
     /* <ID> NAME SEQ */
     return __cxx11::string();
@@ -47,7 +47,7 @@ string LoadCommand::execute()
     m_namedDnaSequencePntr->readFromFile(m_fileName);
 
     DNADataHolder::addDNA(*m_namedDnaSequencePntr);
-    this->notifyMessage();
+    /*this->notifyMessage();*/
 
     /* <ID> NAME SEQ */
     return __cxx11::string();
@@ -66,7 +66,7 @@ string DupCommand::execute()
                     DNADataHolder::getDNASequence(m_sequenceId), m_name));
 
     DNADataHolder::addDNA(*m_namedDnaSequencePntr);
-    this->notifyMessage();
+    /*this->notifyMessage();*/
     /* <ID> NAME SEQ */
     return __cxx11::string();
 }
