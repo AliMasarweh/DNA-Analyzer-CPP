@@ -12,7 +12,16 @@ NamedDNASequence::NamedDNASequence(const char *dnaSeq, const char *name)
         this->m_name = generateName(this->m_id);
 }
 
-NamedDNASequence::NamedDNASequence(const std::string dnaSeq, std::string name)
+NamedDNASequence::NamedDNASequence(DNASequence &dnaSequence, std::string name)
+: DNASequence(dnaSequence), m_id(generateId())
+{
+    if(strcmp(name.c_str(), "") != 0)
+        this->m_name = name;
+    else
+        this->m_name = generateName(this->m_id);
+}
+
+NamedDNASequence::NamedDNASequence(const std::string& dnaSeq, std::string name)
 : DNASequence(dnaSeq), m_id(generateId()){
     if(strcmp(name.c_str(), "") != 0)
         this->m_name = name;
@@ -27,4 +36,3 @@ std::string NamedDNASequence::generateName(size_t id)
     ss << name << id;
     return ss.str();
 }
-

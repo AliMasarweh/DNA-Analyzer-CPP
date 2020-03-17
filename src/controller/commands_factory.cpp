@@ -41,8 +41,8 @@ Command& CommandsFactorySharedPointer::CreateCommandFromOperation(
 map<string, SharedPointer<Command> > CommandsFactorySharedPointer::initCommands()
 {
     map<string, SharedPointer<Command> > ans;
-    SharedPointer<Command> newCommand(new NewCommand());
-    ans.insert(make_pair("new", newCommand));
+    ans.insert(make_pair("new", SharedPointer<Command>(
+            new NewCommand())));
     ans.insert(make_pair("dup", SharedPointer<Command>(
             new DupCommand())));
     ans.insert(make_pair("load", SharedPointer<Command>(

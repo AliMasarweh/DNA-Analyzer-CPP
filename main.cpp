@@ -20,7 +20,7 @@ int main()
     {
         Operation op = commandParser.parse(input);
 
-        Command& command = CommandsFactory::CreateCommandFromOperation(op);
+        Command& command = CommandsFactorySharedPointer::CreateCommandFromOperation(op);
         command.execute();
         getline(cin, input);
     }

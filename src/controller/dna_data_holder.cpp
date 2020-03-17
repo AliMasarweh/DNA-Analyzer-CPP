@@ -2,6 +2,7 @@
 // Created by ali-masa on 2/28/20.
 //
 
+#include <cstdlib>
 #include "dna_data_holder.h"
 
 using namespace std;
@@ -24,4 +25,17 @@ NamedDNASequence &DNADataHolder::getDNASequence(size_t id)
 NamedDNASequence &DNADataHolder::getDNASequence(string name)
 {
     return *s_nameToDNA[name];
+}
+
+NamedDNASequence &DNADataHolder::getDNASeqByIdentifier(std::string identifier)
+{
+    if(identifier[s_dnaIdentifierArgIndex] == s_idIdentifier)
+        return DNADataHolder::getDNASequence(
+                atoi(
+                        identifier.substr(s_dnaIdentifierArgIndex+1)
+                                .c_str()
+                ));
+    else
+        return DNADataHolder::getDNASequence(
+                identifier.substr(s_dnaIdentifierArgIndex+1));
 }

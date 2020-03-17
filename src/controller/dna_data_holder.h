@@ -17,10 +17,14 @@ public:
     static void addDNA(NamedDNASequence& dnaSequence);
     static NamedDNASequence& getDNASequence(size_t id);
     static NamedDNASequence& getDNASequence(std::string name);
+    static NamedDNASequence& getDNASeqByIdentifier(std::string identifier);
 
 private:
     static std::map<size_t , SharedPointer<NamedDNASequence> > s_idToDNA;
     static std::map<std::string , SharedPointer<NamedDNASequence> > s_nameToDNA;
+
+    const static size_t s_dnaIdentifierArgIndex = 0;
+    const static char s_idIdentifier = '#';
 };
 
 

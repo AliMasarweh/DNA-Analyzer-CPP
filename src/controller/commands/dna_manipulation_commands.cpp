@@ -16,8 +16,9 @@ Command &DNAManipulationCommand::putArgs(vector<string> &args)
 
 string SliceCommand::execute()
 {
-    *m_dnaSeq = m_dnaSeq->slice(m_indexes[0],
-            m_indexes[1]);
+    DNASequence tmp = m_dnaSeq->slice(m_indexes[0],
+                                      m_indexes[1]);;
+    *m_dnaSeq = NamedDNASequence(tmp);
 
     // TODO:
     // <Id> <Name> <Seq>
@@ -107,14 +108,13 @@ void ConcatCommand::preValidator()
 
 void ConcatCommand::postStaticParsingParser()
 {
-    SharedPointer<DNASequence> sharedDNASequencePntr;
+    SharedPointer<NamedDNASequence> sharedDNASequencePntr;
     string identifier;
     for(int i = 0; i < m_args.size(); ++i)
     {
         identifier =
                 m_args[ManipulationCommandsParser::s_dnaIdentifierArgIndex];
-        *sharedDNASequencePntr = ManipulationCommandsParser::
-        getDNASeqByIdentifier(identifier);
+        *sharedDNASequencePntr = DNADataHolder::getDNASeqByIdentifier(identifier);
         m_dnaSeqToConcat.push_back(sharedDNASequencePntr);
     }
 }
@@ -144,25 +144,9 @@ void ManipulationCommandsParser::parseArgs(DNAManipulationCommand &command)
     command.preValidator();
 
     string identifier = command.m_args[s_dnaIdentifierArgIndex];
-    *command.m_dnaSeq =
-            ManipulationCommandsParser::getDNASeqByIdentifier(identifier);
+    *command.m_dnaSeq = DNADataHolder::getDNASeqByIdentifier(identifier);
     command.m_args.erase(command.m_args.begin());
 
     command.postStaticParsingParser();
 }
 
-DNASequence &ManipulationCommandsParser::getDNASeqByIdentifier(std::string identifier)
-{
-    DNASequence* dnaSequence;
-    if(identifier[s_dnaIdentifierArgIndex] == s_idIdentifier)
-        *dnaSequence = DNADataHolder::getDNASequence(
-                atoi(
-                        identifier.substr(s_indexAfterIdentifier)
-                                .c_str()
-                ));
-    else
-        *dnaSequence = DNADataHolder::getDNASequence(
-                identifier.substr(s_indexAfterIdentifier));
-
-    return *dnaSequence;
-}

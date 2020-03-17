@@ -21,7 +21,7 @@ public:
 
 protected:
     std::vector<std::string> m_args;
-    SharedPointer<DNASequence> m_dnaSeq;
+    SharedPointer<NamedDNASequence> m_dnaSeq;
 
 private:
     virtual void preValidator() = 0;
@@ -32,12 +32,9 @@ class ManipulationCommandsParser
 {
 public:
     static void parseArgs(DNAManipulationCommand& command);
-    static DNASequence& getDNASeqByIdentifier(std::string identifier);
 
     /* For static parsing of the first sequence id or name */
     const static size_t s_dnaIdentifierArgIndex = 0;
-    const static size_t s_indexAfterIdentifier = 1;
-    const static char s_idIdentifier = '#';
 };
 
 class SliceCommand: public DNAManipulationCommand
@@ -80,7 +77,7 @@ private:
     virtual void preValidator();
     virtual void postStaticParsingParser();
 
-    std::vector<SharedPointer<DNASequence> > m_dnaSeqToConcat;
+    std::vector<SharedPointer<NamedDNASequence> > m_dnaSeqToConcat;
 };
 
 class PairCommand: public DNAManipulationCommand
