@@ -22,6 +22,7 @@ public:
 protected:
     std::vector<std::string> m_args;
     SharedPointer<NamedDNASequence> m_dnaSeq;
+    std::string m_newName;
 
 private:
     virtual void preValidator() = 0;

@@ -2,13 +2,17 @@
 // Created by ali-masa on 3/17/20.
 //
 
+#include <iostream>
 #include "command.h"
+
+using namespace std;
 
 Command::Command() : m_namedDnaSequencePntr(NULL) {}
 
-std::string Command::notifyMessage()
+string Command::notifyMessage()
 {
-    std::stringstream ss;
+    Observer o(cout);
+    stringstream ss;
     if(m_namedDnaSequencePntr != NULL)
     {
         ss << "[" << m_namedDnaSequencePntr->getId() << "] "

@@ -39,8 +39,10 @@ void SliceCommand::preValidator()
 
 void SliceCommand::postStaticParsingParser()
 {
-    m_indexes.push_back(atoi(m_args[s_fromIndxArgIndx].c_str()));
-    m_indexes.push_back(atoi(m_args[s_endIndxArgIndx].c_str()));
+    for (int i = s_fromIndxArgIndx; i <= s_endIndxArgIndx; ++i)
+    {
+        m_indexes.push_back(atoi(m_args[i].c_str()));
+    }
 }
 
 string ReplaceCommand::execute()
@@ -143,10 +145,24 @@ void ManipulationCommandsParser::parseArgs(DNAManipulationCommand &command)
 {
     command.preValidator();
 
+    // To get the NamedDNASeq by either id or name
     string identifier = command.m_args[s_dnaIdentifierArgIndex];
     *command.m_dnaSeq = DNADataHolder::getDNASeqByIdentifier(identifier);
     command.m_args.erase(command.m_args.begin());
 
+    // To in case this is not working on the same NamedDNASeq
+    size_t numOfArgs = command.m_args.size();
+    if(command.m_args[numOfArgs-1].find("@") != string::npos)
+    {
+        if(command.m_args[--numOfArgs] == "@@")
+            command.m_newName = "@@";
+        else
+            command.m_newName = command.m_args[numOfArgs];
+
+        command.m_args.erase(command.m_args.end() - 1);
+    }
+
     command.postStaticParsingParser();
+
 }
 

@@ -16,10 +16,11 @@ Command &DNACreationCommand::putArgs(std::vector<std::string> &args)
 string NewCommand::execute()
 {
     parseArgs();
-    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+    m_namedDnaSequencePntr = /*new NamedDNASequence(*/
             new NamedDNASequence(m_dnaSeq) /*, m_name)*/;
 
-    DNADataHolder::addDNA(*dnaSequence);
+    DNADataHolder::addDNA(*m_namedDnaSequencePntr);
+    this->notifyMessage();
 
     /* <ID> NAME SEQ */
     return __cxx11::string();
@@ -39,13 +40,14 @@ void NewCommand::addParsedAgrs(std::string dnaSeq, std::string name)
 string LoadCommand::execute()
 {
     parseArgs();
-    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+    m_namedDnaSequencePntr= /*new NamedDNASequence(*/
             new NamedDNASequence("A") /*, m_name)*/;
 
     // read from file should be static
-    dnaSequence->readFromFile(m_fileName);
+    m_namedDnaSequencePntr->readFromFile(m_fileName);
 
-    DNADataHolder::addDNA(*dnaSequence);
+    DNADataHolder::addDNA(*m_namedDnaSequencePntr);
+    this->notifyMessage();
 
     /* <ID> NAME SEQ */
     return __cxx11::string();
@@ -59,13 +61,13 @@ void LoadCommand::parseArgs()
 string DupCommand::execute()
 {
     parseArgs();
-    NamedDNASequence * dnaSequence = /*new NamedDNASequence(*/
+    m_namedDnaSequencePntr = /*new NamedDNASequence(*/
             new NamedDNASequence(
                     DNADataHolder::getDNASequence(m_sequenceId))
                     /*, m_name)*/;
 
-    DNADataHolder::addDNA(*dnaSequence);
-
+    DNADataHolder::addDNA(*m_namedDnaSequencePntr);
+    this->notifyMessage();
     /* <ID> NAME SEQ */
     return __cxx11::string();
 }
