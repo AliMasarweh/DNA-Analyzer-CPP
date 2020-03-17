@@ -3,16 +3,7 @@ project(DNAnalyzer)
 
 set(CMAKE_CXX_STANDARD 98)
 
-
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-
-#file(GLOB_RECURSE MODEL_SRCS
-#        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/model/*.cpp
-#        ${CMAKE_CURRENT_SOURCE_DIR}/src/model/*.h)
-#
-#source_group(model FILES ${MODEL_SRCS})
 
 file(GLOB controller_src "src/controller/*")
 file(GLOB commands_src "src/controller/commands/*")

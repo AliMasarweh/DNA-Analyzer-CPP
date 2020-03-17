@@ -27,7 +27,7 @@ public:
 
     NamedDNASequence& pairing()
     {
-        this->theOtherStrand();
+        this->m_sequence = DNASequence::pairing().asString();
         return *this;
     }
 
