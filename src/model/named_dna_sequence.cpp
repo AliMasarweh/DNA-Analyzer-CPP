@@ -36,3 +36,23 @@ std::string NamedDNASequence::generateName(size_t id)
     ss << name << id;
     return ss.str();
 }
+
+void NamedDNASequence::pairing()
+{
+    this->m_sequence = DNASequence::pairing().asString();
+}
+
+void NamedDNASequence::slice(size_t from, size_t to)
+{
+    this->m_sequence = DNASequence::slice(from, to).asString();
+}
+
+void NamedDNASequence::replace(size_t index, char nuclutide)
+{
+    this->m_sequence.at(index) = nuclutide;
+}
+
+void NamedDNASequence::concat(NamedDNASequence &other)
+{
+    this->m_sequence = DNASequence::concat(other).asString();
+}

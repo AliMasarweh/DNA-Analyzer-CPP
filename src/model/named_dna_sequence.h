@@ -25,11 +25,10 @@ public:
 
     inline static size_t generateId() { static size_t id = 0; return ++id;}
 
-    NamedDNASequence& pairing()
-    {
-        this->m_sequence = DNASequence::pairing().asString();
-        return *this;
-    }
+    void pairing();
+    void slice(size_t from, size_t to);
+    void replace(size_t index, char nuclutide);
+    void concat(NamedDNASequence& other);
 
     static std::string generateName(size_t id);
 
