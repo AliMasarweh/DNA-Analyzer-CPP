@@ -13,9 +13,17 @@ Command &DNAAnalysisCommands::putArgs(vector<string> &args)
     return *this;
 }
 
-void DNAAnalysisCommands::addExpression(std::string &expression) {}
+void DNAAnalysisCommands::addExpression(std::string &expression)
+{
+    this->m_namedDNASeq = NULL;
+    this->m_expressedSeq = expression;
+}
 
-void DNAAnalysisCommands::addNamedDNASeq(NamedDNASequence &namedDnaSequence) {}
+void DNAAnalysisCommands::addNamedDNASeq(NamedDNASequence &namedDnaSequence)
+{
+    this->m_namedDNASeq = &namedDnaSequence;
+    this->m_expressedSeq = "";
+}
 
 
 void AnalysisCommandsParser::parseArgs(DNAAnalysisCommands &command)
@@ -94,18 +102,6 @@ void FindCommand::postStaticParsingParser()
     AnalysisCommandsParser::parse2ndArgToExpressionOrNamedDNASeq(*this);
 }
 
-void FindCommand::addExpression(std::string &expression)
-{
-    this->m_namedDNASeq = NULL;
-    this->m_expressedSeq = expression;
-}
-
-void FindCommand::addNamedDNASeq(NamedDNASequence &namedDnaSequence)
-{
-    this->m_namedDNASeq = &namedDnaSequence;
-    this->m_expressedSeq = "";
-}
-
 string CountCommand::execute()
 {
     if(this->m_expressedSeq == "")
@@ -136,18 +132,6 @@ void CountCommand::postStaticParsingParser()
     AnalysisCommandsParser::parse2ndArgToExpressionOrNamedDNASeq(*this);
 }
 
-void CountCommand::addExpression(std::string &expression)
-{
-    this->m_namedDNASeq = NULL;
-    this->m_expressedSeq = expression;
-}
-
-void CountCommand::addNamedDNASeq(NamedDNASequence &namedDnaSequence)
-{
-    this->m_namedDNASeq = &namedDnaSequence;
-    this->m_expressedSeq = "";
-}
-
 string FindAllCommand::execute()
 {
     if(this->m_expressedSeq == "")
@@ -176,16 +160,4 @@ void FindAllCommand::preValidator()
 void FindAllCommand::postStaticParsingParser()
 {
     AnalysisCommandsParser::parse2ndArgToExpressionOrNamedDNASeq(*this);
-}
-
-void FindAllCommand::addExpression(std::string &expression)
-{
-    this->m_namedDNASeq = NULL;
-    this->m_expressedSeq = expression;
-}
-
-void FindAllCommand::addNamedDNASeq(NamedDNASequence &namedDnaSequence)
-{
-    this->m_namedDNASeq = &namedDnaSequence;
-    this->m_expressedSeq = "";
 }

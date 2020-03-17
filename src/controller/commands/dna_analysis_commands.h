@@ -21,6 +21,8 @@ public:
 protected:
     std::vector<std::string> m_args;
     std::vector<size_t> m_analysisAns;
+    std::string m_expressedSeq;
+    NamedDNASequence* m_namedDNASeq;
 
 private:
     virtual void preValidator() = 0;
@@ -62,12 +64,7 @@ private:
     virtual void preValidator();
     virtual void postStaticParsingParser();
 
-    virtual void addExpression(std::string &expression);
-    virtual void addNamedDNASeq(NamedDNASequence &namedDnaSequence);
-
     const static size_t s_argsLength = 2;
-    std::string m_expressedSeq;
-    NamedDNASequence* m_namedDNASeq;
 };
 
 class CountCommand : public DNAAnalysisCommands
@@ -80,12 +77,7 @@ private:
     virtual void preValidator();
     virtual void postStaticParsingParser();
 
-    virtual void addExpression(std::string &expression);
-    virtual void addNamedDNASeq(NamedDNASequence &namedDnaSequence);
-
     const static size_t s_argsLength = 2;
-    std::string m_expressedSeq;
-    NamedDNASequence* m_namedDNASeq;
 };
 
 class FindAllCommand : public DNAAnalysisCommands
@@ -98,12 +90,7 @@ private:
     virtual void preValidator();
     virtual void postStaticParsingParser();
 
-    virtual void addExpression(std::string &expression);
-    virtual void addNamedDNASeq(NamedDNASequence &namedDnaSequence);
-
     const static size_t s_argsLength = 2;
-    std::string m_expressedSeq;
-    NamedDNASequence* m_namedDNASeq;
 };
 
 #endif //DNANALYZER_DNA_ANALYSIS_COMMANDS_H
